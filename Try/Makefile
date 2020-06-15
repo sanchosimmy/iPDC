@@ -12,7 +12,7 @@ LIBS = -lpthread -lm -lrt
 LDLIBS=`pkg-config --cflags --libs gtk+-3.0`
 CFLAGS=`pkg-config --cflags --cflags gtk+-3.0` 
 
-#sancho
+
 
 OBJECTS =  example-1.o
 CLEAN_OBJECTS = example-1.o
