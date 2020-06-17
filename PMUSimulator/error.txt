@@ -1,0 +1,435 @@
+sancho@sancho:~/MTP/iPDC/PMUSimulator$ make
+gcc  `pkg-config --cflags --cflags gtk+-3.0` -DGTK_DISABLE_SINGLE_INCLUDES -DGDK_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED -DGSEAL_ENABLE -c -g PmuGui.c
+PmuGui.c: In function ‘pmu_server’:
+PmuGui.c:391:10: warning: implicit declaration of function ‘gtk_table_new’; did you mean ‘gtk_scale_new’? [-Wimplicit-function-declaration]
+  table = gtk_table_new (8, 2, FALSE);
+          ^~~~~~~~~~~~~
+          gtk_scale_new
+PmuGui.c:391:8: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+  table = gtk_table_new (8, 2, FALSE);
+        ^
+PmuGui.c:394:2: warning: implicit declaration of function ‘gtk_table_set_row_spacings’; did you mean ‘gtk_grid_set_row_spacing’? [-Wimplicit-function-declaration]
+  gtk_table_set_row_spacings (GTK_TABLE (table), 8);
+  ^~~~~~~~~~~~~~~~~~~~~~~~~~
+  gtk_grid_set_row_spacing
+PmuGui.c:394:30: warning: implicit declaration of function ‘GTK_TABLE’; did you mean ‘ATK_TABLE’? [-Wimplicit-function-declaration]
+  gtk_table_set_row_spacings (GTK_TABLE (table), 8);
+                              ^~~~~~~~~
+                              ATK_TABLE
+PmuGui.c:395:2: warning: implicit declaration of function ‘gtk_table_set_col_spacings’; did you mean ‘gtk_grid_set_row_spacing’? [-Wimplicit-function-declaration]
+  gtk_table_set_col_spacings (GTK_TABLE (table), 2);
+  ^~~~~~~~~~~~~~~~~~~~~~~~~~
+  gtk_grid_set_row_spacing
+PmuGui.c:410:2: warning: implicit declaration of function ‘gtk_table_attach_defaults’; did you mean ‘gtk_grid_attach_next_to’? [-Wimplicit-function-declaration]
+  gtk_table_attach_defaults (GTK_TABLE (table), label, 0, 2, 0, 1);
+  ^~~~~~~~~~~~~~~~~~~~~~~~~
+  gtk_grid_attach_next_to
+PmuGui.c:415:7: warning: ‘gtk_misc_set_alignment’ is deprecated [-Wdeprecated-declarations]
+       gtk_misc_set_alignment (GTK_MISC(label),0,0);
+       ^~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/include/gtk-3.0/gtk/gtklabel.h:32:0,
+                 from /usr/include/gtk-3.0/gtk/gtkaccellabel.h:35,
+                 from /usr/include/gtk-3.0/gtk/gtk.h:33,
+                 from PmuGui.c:39:
+/usr/include/gtk-3.0/gtk/deprecated/gtkmisc.h:72:6: note: declared here
+ void gtk_misc_set_alignment (GtkMisc *misc,
+      ^~~~~~~~~~~~~~~~~~~~~~
+PmuGui.c:415:7: warning: ‘gtk_misc_get_type’ is deprecated [-Wdeprecated-declarations]
+       gtk_misc_set_alignment (GTK_MISC(label),0,0);
+       ^~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/include/gtk-3.0/gtk/gtklabel.h:32:0,
+                 from /usr/include/gtk-3.0/gtk/gtkaccellabel.h:35,
+                 from /usr/include/gtk-3.0/gtk/gtk.h:33,
+                 from PmuGui.c:39:
+/usr/include/gtk-3.0/gtk/deprecated/gtkmisc.h:70:9: note: declared here
+ GType   gtk_misc_get_type      (void) G_GNUC_CONST;
+         ^~~~~~~~~~~~~~~~~
+PmuGui.c:420:7: warning: ‘gtk_misc_set_alignment’ is deprecated [-Wdeprecated-declarations]
+       gtk_misc_set_alignment (GTK_MISC(label),0,0);
+       ^~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/include/gtk-3.0/gtk/gtklabel.h:32:0,
+                 from /usr/include/gtk-3.0/gtk/gtkaccellabel.h:35,
+                 from /usr/include/gtk-3.0/gtk/gtk.h:33,
+                 from PmuGui.c:39:
+/usr/include/gtk-3.0/gtk/deprecated/gtkmisc.h:72:6: note: declared here
+ void gtk_misc_set_alignment (GtkMisc *misc,
+      ^~~~~~~~~~~~~~~~~~~~~~
+PmuGui.c:420:7: warning: ‘gtk_misc_get_type’ is deprecated [-Wdeprecated-declarations]
+       gtk_misc_set_alignment (GTK_MISC(label),0,0);
+       ^~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/include/gtk-3.0/gtk/gtklabel.h:32:0,
+                 from /usr/include/gtk-3.0/gtk/gtkaccellabel.h:35,
+                 from /usr/include/gtk-3.0/gtk/gtk.h:33,
+                 from PmuGui.c:39:
+/usr/include/gtk-3.0/gtk/deprecated/gtkmisc.h:70:9: note: declared here
+ GType   gtk_misc_get_type      (void) G_GNUC_CONST;
+         ^~~~~~~~~~~~~~~~~
+PmuGui.c:425:7: warning: ‘gtk_misc_set_alignment’ is deprecated [-Wdeprecated-declarations]
+       gtk_misc_set_alignment (GTK_MISC(label),0,0);
+       ^~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/include/gtk-3.0/gtk/gtklabel.h:32:0,
+                 from /usr/include/gtk-3.0/gtk/gtkaccellabel.h:35,
+                 from /usr/include/gtk-3.0/gtk/gtk.h:33,
+                 from PmuGui.c:39:
+/usr/include/gtk-3.0/gtk/deprecated/gtkmisc.h:72:6: note: declared here
+ void gtk_misc_set_alignment (GtkMisc *misc,
+      ^~~~~~~~~~~~~~~~~~~~~~
+PmuGui.c:425:7: warning: ‘gtk_misc_get_type’ is deprecated [-Wdeprecated-declarations]
+       gtk_misc_set_alignment (GTK_MISC(label),0,0);
+       ^~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/include/gtk-3.0/gtk/gtklabel.h:32:0,
+                 from /usr/include/gtk-3.0/gtk/gtkaccellabel.h:35,
+                 from /usr/include/gtk-3.0/gtk/gtk.h:33,
+                 from PmuGui.c:39:
+/usr/include/gtk-3.0/gtk/deprecated/gtkmisc.h:70:9: note: declared here
+ GType   gtk_misc_get_type      (void) G_GNUC_CONST;
+         ^~~~~~~~~~~~~~~~~
+PmuGui.c:430:7: warning: ‘gtk_misc_set_alignment’ is deprecated [-Wdeprecated-declarations]
+       gtk_misc_set_alignment (GTK_MISC(label),0,0);
+       ^~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/include/gtk-3.0/gtk/gtklabel.h:32:0,
+                 from /usr/include/gtk-3.0/gtk/gtkaccellabel.h:35,
+                 from /usr/include/gtk-3.0/gtk/gtk.h:33,
+                 from PmuGui.c:39:
+/usr/include/gtk-3.0/gtk/deprecated/gtkmisc.h:72:6: note: declared here
+ void gtk_misc_set_alignment (GtkMisc *misc,
+      ^~~~~~~~~~~~~~~~~~~~~~
+PmuGui.c:430:7: warning: ‘gtk_misc_get_type’ is deprecated [-Wdeprecated-declarations]
+       gtk_misc_set_alignment (GTK_MISC(label),0,0);
+       ^~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/include/gtk-3.0/gtk/gtklabel.h:32:0,
+                 from /usr/include/gtk-3.0/gtk/gtkaccellabel.h:35,
+                 from /usr/include/gtk-3.0/gtk/gtk.h:33,
+                 from PmuGui.c:39:
+/usr/include/gtk-3.0/gtk/deprecated/gtkmisc.h:70:9: note: declared here
+ GType   gtk_misc_get_type      (void) G_GNUC_CONST;
+         ^~~~~~~~~~~~~~~~~
+PmuGui.c:459:7: warning: ‘gtk_misc_set_alignment’ is deprecated [-Wdeprecated-declarations]
+       gtk_misc_set_alignment (GTK_MISC(label),0,0);
+       ^~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/include/gtk-3.0/gtk/gtklabel.h:32:0,
+                 from /usr/include/gtk-3.0/gtk/gtkaccellabel.h:35,
+                 from /usr/include/gtk-3.0/gtk/gtk.h:33,
+                 from PmuGui.c:39:
+/usr/include/gtk-3.0/gtk/deprecated/gtkmisc.h:72:6: note: declared here
+ void gtk_misc_set_alignment (GtkMisc *misc,
+      ^~~~~~~~~~~~~~~~~~~~~~
+PmuGui.c:459:7: warning: ‘gtk_misc_get_type’ is deprecated [-Wdeprecated-declarations]
+       gtk_misc_set_alignment (GTK_MISC(label),0,0);
+       ^~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/include/gtk-3.0/gtk/gtklabel.h:32:0,
+                 from /usr/include/gtk-3.0/gtk/gtkaccellabel.h:35,
+                 from /usr/include/gtk-3.0/gtk/gtk.h:33,
+                 from PmuGui.c:39:
+/usr/include/gtk-3.0/gtk/deprecated/gtkmisc.h:70:9: note: declared here
+ GType   gtk_misc_get_type      (void) G_GNUC_CONST;
+         ^~~~~~~~~~~~~~~~~
+PmuGui.c:474:2: warning: ‘gtk_dialog_get_action_area’ is deprecated [-Wdeprecated-declarations]
+  gtk_box_pack_start (GTK_BOX (gtk_dialog_get_action_area (GTK_DIALOG (pmu_server_window))), valdbutton, TRUE, TRUE, 0);
+  ^~~~~~~~~~~~~~~~~~
+In file included from /usr/include/gtk-3.0/gtk/gtkaboutdialog.h:30:0,
+                 from /usr/include/gtk-3.0/gtk/gtk.h:31,
+                 from PmuGui.c:39:
+/usr/include/gtk-3.0/gtk/gtkdialog.h:203:13: note: declared here
+ GtkWidget * gtk_dialog_get_action_area  (GtkDialog *dialog);
+             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+PmuGui.c:475:2: warning: ‘gtk_dialog_get_action_area’ is deprecated [-Wdeprecated-declarations]
+  gtk_box_pack_start (GTK_BOX (gtk_dialog_get_action_area (GTK_DIALOG (pmu_server_window))), help_button, TRUE, TRUE, 0);
+  ^~~~~~~~~~~~~~~~~~
+In file included from /usr/include/gtk-3.0/gtk/gtkaboutdialog.h:30:0,
+                 from /usr/include/gtk-3.0/gtk/gtk.h:31,
+                 from PmuGui.c:39:
+/usr/include/gtk-3.0/gtk/gtkdialog.h:203:13: note: declared here
+ GtkWidget * gtk_dialog_get_action_area  (GtkDialog *dialog);
+             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+PmuGui.c:476:2: warning: ‘gtk_dialog_get_action_area’ is deprecated [-Wdeprecated-declarations]
+  gtk_box_pack_start (GTK_BOX (gtk_dialog_get_action_area (GTK_DIALOG (pmu_server_window))), cancel_button, TRUE, TRUE, 0);
+  ^~~~~~~~~~~~~~~~~~
+In file included from /usr/include/gtk-3.0/gtk/gtkaboutdialog.h:30:0,
+                 from /usr/include/gtk-3.0/gtk/gtk.h:31,
+                 from PmuGui.c:39:
+/usr/include/gtk-3.0/gtk/gtkdialog.h:203:13: note: declared here
+ GtkWidget * gtk_dialog_get_action_area  (GtkDialog *dialog);
+             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+PmuGui.c: In function ‘manage_data_sources’:
+PmuGui.c:510:8: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+  table = gtk_table_new (6, 2, FALSE);
+        ^
+PmuGui.c:562:2: warning: ‘gtk_dialog_get_action_area’ is deprecated [-Wdeprecated-declarations]
+  gtk_box_pack_start (GTK_BOX (gtk_dialog_get_action_area (GTK_DIALOG (data_managing_window))), close_butn, TRUE, TRUE, 0);
+  ^~~~~~~~~~~~~~~~~~
+In file included from /usr/include/gtk-3.0/gtk/gtkaboutdialog.h:30:0,
+                 from /usr/include/gtk-3.0/gtk/gtk.h:31,
+                 from PmuGui.c:39:
+/usr/include/gtk-3.0/gtk/gtkdialog.h:203:13: note: declared here
+ GtkWidget * gtk_dialog_get_action_area  (GtkDialog *dialog);
+             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+PmuGui.c: In function ‘Set_data_source’:
+PmuGui.c:606:17: error: ‘GTK_STOCK_CANCEL’ undeclared (first use in this function); did you mean ‘GDK_TOUCH_CANCEL’?
+                 GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+                 ^~~~~~~~~~~~~~~~
+                 GDK_TOUCH_CANCEL
+PmuGui.c:606:17: note: each undeclared identifier is reported only once for each function it appears in
+PmuGui.c:607:17: error: ‘GTK_STOCK_OPEN’ undeclared (first use in this function); did you mean ‘GTK_STOCK_CANCEL’?
+                 GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT);
+                 ^~~~~~~~~~~~~~
+                 GTK_STOCK_CANCEL
+PmuGui.c: In function ‘pmu_setup_file_selection’:
+PmuGui.c:716:13: error: ‘GTK_STOCK_CANCEL’ undeclared (first use in this function); did you mean ‘GDK_TOUCH_CANCEL’?
+             GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+             ^~~~~~~~~~~~~~~~
+             GDK_TOUCH_CANCEL
+PmuGui.c:717:13: error: ‘GTK_STOCK_OPEN’ undeclared (first use in this function); did you mean ‘GTK_STOCK_CANCEL’?
+             GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT);
+             ^~~~~~~~~~~~~~
+             GTK_STOCK_CANCEL
+PmuGui.c: In function ‘view_setup_file’:
+PmuGui.c:784:9: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+   table = gtk_table_new (17, 2, FALSE);
+         ^
+PmuGui.c:811:7: warning: ‘gtk_misc_set_alignment’ is deprecated [-Wdeprecated-declarations]
+       gtk_misc_set_alignment (GTK_MISC(label),0,0);
+       ^~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/include/gtk-3.0/gtk/gtklabel.h:32:0,
+                 from /usr/include/gtk-3.0/gtk/gtkaccellabel.h:35,
+                 from /usr/include/gtk-3.0/gtk/gtk.h:33,
+                 from PmuGui.c:39:
+/usr/include/gtk-3.0/gtk/deprecated/gtkmisc.h:72:6: note: declared here
+ void gtk_misc_set_alignment (GtkMisc *misc,
+      ^~~~~~~~~~~~~~~~~~~~~~
+PmuGui.c:811:7: warning: ‘gtk_misc_get_type’ is deprecated [-Wdeprecated-declarations]
+       gtk_misc_set_alignment (GTK_MISC(label),0,0);
+       ^~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/include/gtk-3.0/gtk/gtklabel.h:32:0,
+                 from /usr/include/gtk-3.0/gtk/gtkaccellabel.h:35,
+                 from /usr/include/gtk-3.0/gtk/gtk.h:33,
+                 from PmuGui.c:39:
+/usr/include/gtk-3.0/gtk/deprecated/gtkmisc.h:70:9: note: declared here
+ GType   gtk_misc_get_type      (void) G_GNUC_CONST;
+         ^~~~~~~~~~~~~~~~~
+PmuGui.c:816:7: warning: ‘gtk_misc_set_alignment’ is deprecated [-Wdeprecated-declarations]
+       gtk_misc_set_alignment (GTK_MISC(label),0,0);
+       ^~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/include/gtk-3.0/gtk/gtklabel.h:32:0,
+                 from /usr/include/gtk-3.0/gtk/gtkaccellabel.h:35,
+                 from /usr/include/gtk-3.0/gtk/gtk.h:33,
+                 from PmuGui.c:39:
+/usr/include/gtk-3.0/gtk/deprecated/gtkmisc.h:72:6: note: declared here
+ void gtk_misc_set_alignment (GtkMisc *misc,
+      ^~~~~~~~~~~~~~~~~~~~~~
+PmuGui.c:816:7: warning: ‘gtk_misc_get_type’ is deprecated [-Wdeprecated-declarations]
+       gtk_misc_set_alignment (GTK_MISC(label),0,0);
+       ^~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/include/gtk-3.0/gtk/gtklabel.h:32:0,
+                 from /usr/include/gtk-3.0/gtk/gtkaccellabel.h:35,
+                 from /usr/include/gtk-3.0/gtk/gtk.h:33,
+                 from PmuGui.c:39:
+/usr/include/gtk-3.0/gtk/deprecated/gtkmisc.h:70:9: note: declared here
+ GType   gtk_misc_get_type      (void) G_GNUC_CONST;
+         ^~~~~~~~~~~~~~~~~
+PmuGui.c:828:7: warning: ‘gtk_misc_set_alignment’ is deprecated [-Wdeprecated-declarations]
+       gtk_misc_set_alignment (GTK_MISC(label),0,0);
+       ^~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/include/gtk-3.0/gtk/gtklabel.h:32:0,
+                 from /usr/include/gtk-3.0/gtk/gtkaccellabel.h:35,
+                 from /usr/include/gtk-3.0/gtk/gtk.h:33,
+                 from PmuGui.c:39:
+/usr/include/gtk-3.0/gtk/deprecated/gtkmisc.h:72:6: note: declared here
+ void gtk_misc_set_alignment (GtkMisc *misc,
+      ^~~~~~~~~~~~~~~~~~~~~~
+PmuGui.c:828:7: warning: ‘gtk_misc_get_type’ is deprecated [-Wdeprecated-declarations]
+       gtk_misc_set_alignment (GTK_MISC(label),0,0);
+       ^~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/include/gtk-3.0/gtk/gtklabel.h:32:0,
+                 from /usr/include/gtk-3.0/gtk/gtkaccellabel.h:35,
+                 from /usr/include/gtk-3.0/gtk/gtk.h:33,
+                 from PmuGui.c:39:
+/usr/include/gtk-3.0/gtk/deprecated/gtkmisc.h:70:9: note: declared here
+ GType   gtk_misc_get_type      (void) G_GNUC_CONST;
+         ^~~~~~~~~~~~~~~~~
+PmuGui.c:833:7: warning: ‘gtk_misc_set_alignment’ is deprecated [-Wdeprecated-declarations]
+       gtk_misc_set_alignment (GTK_MISC(label),0,0);
+       ^~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/include/gtk-3.0/gtk/gtklabel.h:32:0,
+                 from /usr/include/gtk-3.0/gtk/gtkaccellabel.h:35,
+                 from /usr/include/gtk-3.0/gtk/gtk.h:33,
+                 from PmuGui.c:39:
+/usr/include/gtk-3.0/gtk/deprecated/gtkmisc.h:72:6: note: declared here
+ void gtk_misc_set_alignment (GtkMisc *misc,
+      ^~~~~~~~~~~~~~~~~~~~~~
+PmuGui.c:833:7: warning: ‘gtk_misc_get_type’ is deprecated [-Wdeprecated-declarations]
+       gtk_misc_set_alignment (GTK_MISC(label),0,0);
+       ^~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/include/gtk-3.0/gtk/gtklabel.h:32:0,
+                 from /usr/include/gtk-3.0/gtk/gtkaccellabel.h:35,
+                 from /usr/include/gtk-3.0/gtk/gtk.h:33,
+                 from PmuGui.c:39:
+/usr/include/gtk-3.0/gtk/deprecated/gtkmisc.h:70:9: note: declared here
+ GType   gtk_misc_get_type      (void) G_GNUC_CONST;
+         ^~~~~~~~~~~~~~~~~
+PmuGui.c:838:7: warning: ‘gtk_misc_set_alignment’ is deprecated [-Wdeprecated-declarations]
+       gtk_misc_set_alignment (GTK_MISC(label),0,0);
+       ^~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/include/gtk-3.0/gtk/gtklabel.h:32:0,
+                 from /usr/include/gtk-3.0/gtk/gtkaccellabel.h:35,
+                 from /usr/include/gtk-3.0/gtk/gtk.h:33,
+                 from PmuGui.c:39:
+/usr/include/gtk-3.0/gtk/deprecated/gtkmisc.h:72:6: note: declared here
+ void gtk_misc_set_alignment (GtkMisc *misc,
+      ^~~~~~~~~~~~~~~~~~~~~~
+PmuGui.c:838:7: warning: ‘gtk_misc_get_type’ is deprecated [-Wdeprecated-declarations]
+       gtk_misc_set_alignment (GTK_MISC(label),0,0);
+       ^~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/include/gtk-3.0/gtk/gtklabel.h:32:0,
+                 from /usr/include/gtk-3.0/gtk/gtkaccellabel.h:35,
+                 from /usr/include/gtk-3.0/gtk/gtk.h:33,
+                 from PmuGui.c:39:
+/usr/include/gtk-3.0/gtk/deprecated/gtkmisc.h:70:9: note: declared here
+ GType   gtk_misc_get_type      (void) G_GNUC_CONST;
+         ^~~~~~~~~~~~~~~~~
+PmuGui.c:843:7: warning: ‘gtk_misc_set_alignment’ is deprecated [-Wdeprecated-declarations]
+       gtk_misc_set_alignment (GTK_MISC(label),0,0);
+       ^~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/include/gtk-3.0/gtk/gtklabel.h:32:0,
+                 from /usr/include/gtk-3.0/gtk/gtkaccellabel.h:35,
+                 from /usr/include/gtk-3.0/gtk/gtk.h:33,
+                 from PmuGui.c:39:
+/usr/include/gtk-3.0/gtk/deprecated/gtkmisc.h:72:6: note: declared here
+ void gtk_misc_set_alignment (GtkMisc *misc,
+      ^~~~~~~~~~~~~~~~~~~~~~
+PmuGui.c:843:7: warning: ‘gtk_misc_get_type’ is deprecated [-Wdeprecated-declarations]
+       gtk_misc_set_alignment (GTK_MISC(label),0,0);
+       ^~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/include/gtk-3.0/gtk/gtklabel.h:32:0,
+                 from /usr/include/gtk-3.0/gtk/gtkaccellabel.h:35,
+                 from /usr/include/gtk-3.0/gtk/gtk.h:33,
+                 from PmuGui.c:39:
+/usr/include/gtk-3.0/gtk/deprecated/gtkmisc.h:70:9: note: declared here
+ GType   gtk_misc_get_type      (void) G_GNUC_CONST;
+         ^~~~~~~~~~~~~~~~~
+PmuGui.c:848:7: warning: ‘gtk_misc_set_alignment’ is deprecated [-Wdeprecated-declarations]
+       gtk_misc_set_alignment (GTK_MISC(label),0,0);
+       ^~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/include/gtk-3.0/gtk/gtklabel.h:32:0,
+                 from /usr/include/gtk-3.0/gtk/gtkaccellabel.h:35,
+                 from /usr/include/gtk-3.0/gtk/gtk.h:33,
+                 from PmuGui.c:39:
+/usr/include/gtk-3.0/gtk/deprecated/gtkmisc.h:72:6: note: declared here
+ void gtk_misc_set_alignment (GtkMisc *misc,
+      ^~~~~~~~~~~~~~~~~~~~~~
+PmuGui.c:848:7: warning: ‘gtk_misc_get_type’ is deprecated [-Wdeprecated-declarations]
+       gtk_misc_set_alignment (GTK_MISC(label),0,0);
+       ^~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/include/gtk-3.0/gtk/gtklabel.h:32:0,
+                 from /usr/include/gtk-3.0/gtk/gtkaccellabel.h:35,
+                 from /usr/include/gtk-3.0/gtk/gtk.h:33,
+                 from PmuGui.c:39:
+/usr/include/gtk-3.0/gtk/deprecated/gtkmisc.h:70:9: note: declared here
+ GType   gtk_misc_get_type      (void) G_GNUC_CONST;
+         ^~~~~~~~~~~~~~~~~
+PmuGui.c:853:7: warning: ‘gtk_misc_set_alignment’ is deprecated [-Wdeprecated-declarations]
+       gtk_misc_set_alignment (GTK_MISC(label),0,0);
+       ^~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/include/gtk-3.0/gtk/gtklabel.h:32:0,
+                 from /usr/include/gtk-3.0/gtk/gtkaccellabel.h:35,
+                 from /usr/include/gtk-3.0/gtk/gtk.h:33,
+                 from PmuGui.c:39:
+/usr/include/gtk-3.0/gtk/deprecated/gtkmisc.h:72:6: note: declared here
+ void gtk_misc_set_alignment (GtkMisc *misc,
+      ^~~~~~~~~~~~~~~~~~~~~~
+PmuGui.c:853:7: warning: ‘gtk_misc_get_type’ is deprecated [-Wdeprecated-declarations]
+       gtk_misc_set_alignment (GTK_MISC(label),0,0);
+       ^~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/include/gtk-3.0/gtk/gtklabel.h:32:0,
+                 from /usr/include/gtk-3.0/gtk/gtkaccellabel.h:35,
+                 from /usr/include/gtk-3.0/gtk/gtk.h:33,
+                 from PmuGui.c:39:
+/usr/include/gtk-3.0/gtk/deprecated/gtkmisc.h:70:9: note: declared here
+ GType   gtk_misc_get_type      (void) G_GNUC_CONST;
+         ^~~~~~~~~~~~~~~~~
+PmuGui.c:858:8: warning: ‘gtk_misc_set_alignment’ is deprecated [-Wdeprecated-declarations]
+        gtk_misc_set_alignment (GTK_MISC(label),0,0);
+        ^~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/include/gtk-3.0/gtk/gtklabel.h:32:0,
+                 from /usr/include/gtk-3.0/gtk/gtkaccellabel.h:35,
+                 from /usr/include/gtk-3.0/gtk/gtk.h:33,
+                 from PmuGui.c:39:
+/usr/include/gtk-3.0/gtk/deprecated/gtkmisc.h:72:6: note: declared here
+ void gtk_misc_set_alignment (GtkMisc *misc,
+      ^~~~~~~~~~~~~~~~~~~~~~
+PmuGui.c:858:8: warning: ‘gtk_misc_get_type’ is deprecated [-Wdeprecated-declarations]
+        gtk_misc_set_alignment (GTK_MISC(label),0,0);
+        ^~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/include/gtk-3.0/gtk/gtklabel.h:32:0,
+                 from /usr/include/gtk-3.0/gtk/gtkaccellabel.h:35,
+                 from /usr/include/gtk-3.0/gtk/gtk.h:33,
+                 from PmuGui.c:39:
+/usr/include/gtk-3.0/gtk/deprecated/gtkmisc.h:70:9: note: declared here
+ GType   gtk_misc_get_type      (void) G_GNUC_CONST;
+         ^~~~~~~~~~~~~~~~~
+PmuGui.c:863:8: warning: ‘gtk_misc_set_alignment’ is deprecated [-Wdeprecated-declarations]
+        gtk_misc_set_alignment (GTK_MISC(label),0,0);
+        ^~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/include/gtk-3.0/gtk/gtklabel.h:32:0,
+                 from /usr/include/gtk-3.0/gtk/gtkaccellabel.h:35,
+                 from /usr/include/gtk-3.0/gtk/gtk.h:33,
+                 from PmuGui.c:39:
+/usr/include/gtk-3.0/gtk/deprecated/gtkmisc.h:72:6: note: declared here
+ void gtk_misc_set_alignment (GtkMisc *misc,
+      ^~~~~~~~~~~~~~~~~~~~~~
+PmuGui.c:863:8: warning: ‘gtk_misc_get_type’ is deprecated [-Wdeprecated-declarations]
+        gtk_misc_set_alignment (GTK_MISC(label),0,0);
+        ^~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/include/gtk-3.0/gtk/gtklabel.h:32:0,
+                 from /usr/include/gtk-3.0/gtk/gtkaccellabel.h:35,
+                 from /usr/include/gtk-3.0/gtk/gtk.h:33,
+                 from PmuGui.c:39:
+/usr/include/gtk-3.0/gtk/deprecated/gtkmisc.h:70:9: note: declared here
+ GType   gtk_misc_get_type      (void) G_GNUC_CONST;
+         ^~~~~~~~~~~~~~~~~
+PmuGui.c:870:8: warning: ‘gtk_misc_set_alignment’ is deprecated [-Wdeprecated-declarations]
+        gtk_misc_set_alignment (GTK_MISC(label),0,0);
+        ^~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/include/gtk-3.0/gtk/gtklabel.h:32:0,
+                 from /usr/include/gtk-3.0/gtk/gtkaccellabel.h:35,
+                 from /usr/include/gtk-3.0/gtk/gtk.h:33,
+                 from PmuGui.c:39:
+/usr/include/gtk-3.0/gtk/deprecated/gtkmisc.h:72:6: note: declared here
+ void gtk_misc_set_alignment (GtkMisc *misc,
+      ^~~~~~~~~~~~~~~~~~~~~~
+PmuGui.c:870:8: warning: ‘gtk_misc_get_type’ is deprecated [-Wdeprecated-declarations]
+        gtk_misc_set_alignment (GTK_MISC(label),0,0);
+        ^~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/include/gtk-3.0/gtk/gtklabel.h:32:0,
+                 from /usr/include/gtk-3.0/gtk/gtkaccellabel.h:35,
+                 from /usr/include/gtk-3.0/gtk/gtk.h:33,
+                 from PmuGui.c:39:
+/usr/include/gtk-3.0/gtk/deprecated/gtkmisc.h:70:9: note: declared here
+ GType   gtk_misc_get_type      (void) G_GNUC_CONST;
+         ^~~~~~~~~~~~~~~~~
+PmuGui.c:1005:3: warning: ‘gtk_dialog_get_action_area’ is deprecated [-Wdeprecated-declarations]
+   gtk_box_pack_start (GTK_BOX (gtk_dialog_get_action_area (GTK_DIALOG (setup_display_window))), apply_button, TRUE, TRUE, 0);
+   ^~~~~~~~~~~~~~~~~~
+In file included from /usr/include/gtk-3.0/gtk/gtkaboutdialog.h:30:0,
+                 from /usr/include/gtk-3.0/gtk/gtk.h:31,
+                 from PmuGui.c:39:
+/usr/include/gtk-3.0/gtk/gtkdialog.h:203:13: note: declared here
+ GtkWidget * gtk_dialog_get_action_area  (GtkDialog *dialog);
+             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+PmuGui.c:1006:3: warning: ‘gtk_dialog_get_action_area’ is deprecated [-Wdeprecated-declarations]
+   gtk_box_pack_start (GTK_BOX (gtk_dialog_get_action_area (GTK_DIALOG (setup_display_window))), cancel_button, TRUE, TRUE, 0);
+   ^~~~~~~~~~~~~~~~~~
+In file included from /usr/include/gtk-3.0/gtk/gtkaboutdialog.h:30:0,
+                 from /usr/include/gtk-3.0/gtk/gtk.h:31,
+                 from PmuGui.c:39:
+/usr/include/gtk-3.0/gtk/gtkdialog.h:203:13: note: declared here
+ GtkWidget * gtk_dialog_get_action_area  (GtkDialog *dialog);
+             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+PmuGui.c: In function ‘display_time’:
+PmuGui.c:1126:11: warning: implicit declaration of function ‘gettimeofday’ [-Wimplicit-function-declaration]
+           gettimeofday (&tv, NULL);
+           ^~~~~~~~~~~~
+Makefile:71: recipe for target 'PmuGui.o' failed
+make: *** [PmuGui.o] Error 1
+sancho@sancho:~/MTP/iPDC/PMUSimulator$ 
+
