@@ -1,0 +1,88 @@
+sancho@sancho:~/MTP$ git clone https://github.com/sanchosimmy/iPDC.git
+Cloning into 'iPDC'...
+remote: Enumerating objects: 299, done.
+remote: Total 299 (delta 0), reused 0 (delta 0), pack-reused 299
+Receiving objects: 100% (299/299), 5.30 MiB | 1.45 MiB/s, done.
+Resolving deltas: 100% (121/121), done.
+sancho@sancho:~/MTP$ git add .
+fatal: not a git repository (or any parent up to mount point /)
+Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
+sancho@sancho:~/MTP$ cd iPDC
+sancho@sancho:~/MTP/iPDC$ git add .
+sancho@sancho:~/MTP/iPDC$ git commit -m "first"
+
+*** Please tell me who you are.
+
+Run
+
+  git config --global user.email "you@example.com"
+  git config --global user.name "Your Name"
+
+to set your account's default identity.
+Omit --global to set the identity only in this repository.
+
+fatal: unable to auto-detect email address (got 'sancho@sancho.(none)')
+sancho@sancho:~/MTP/iPDC$  git config --global user.email "you@example.com"
+sancho@sancho:~/MTP/iPDC$  git config --global user.email "you@example.com"
+sancho@sancho:~/MTP/iPDC$ git config --global user.email "sanchoatiitb@gmail.com"
+sancho@sancho:~/MTP/iPDC$ git config --global user.name "Sancho Simmy Louis"
+sancho@sancho:~/MTP/iPDC$ git commit -m "first"
+On branch master
+Your branch is up to date with 'origin/master'.
+
+nothing to commit, working tree clean
+sancho@sancho:~/MTP/iPDC$ git push origin master
+Username for 'https://github.com': sanchosimmy
+Password for 'https://sanchosimmy@github.com': 
+remote: Invalid username or password.
+fatal: Authentication failed for 'https://github.com/sanchosimmy/iPDC.git/'
+sancho@sancho:~/MTP/iPDC$ git push origin master
+Username for 'https://github.com': sanchosimmy
+Password for 'https://sanchosimmy@github.com': 
+Everything up-to-date
+sancho@sancho:~/MTP/iPDC$ cd ..
+sancho@sancho:~/MTP$ rm -r iPDC
+rm: remove write-protected regular file 'iPDC/.git/objects/pack/pack-fb831e9b397afc118e99e0ffceb0a44b87e7cacb.pack'? y
+rm: remove write-protected regular file 'iPDC/.git/objects/pack/pack-fb831e9b397afc118e99e0ffceb0a44b87e7cacb.idx'? y
+sancho@sancho:~/MTP$ git clone git@github.com:sanchosimmy/iPDC.git
+Cloning into 'iPDC'...
+The authenticity of host 'github.com (13.234.176.102)' can't be established.
+RSA key fingerprint is SHA256:nThbg6kXUpJWGl7E1IGOCspRomTxdCARLviKw6E5SY8.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added 'github.com,13.234.176.102' (RSA) to the list of known hosts.
+remote: Enumerating objects: 299, done.
+remote: Total 299 (delta 0), reused 0 (delta 0), pack-reused 299
+Receiving objects: 100% (299/299), 5.30 MiB | 1.13 MiB/s, done.
+Resolving deltas: 100% (121/121), done.
+sancho@sancho:~/MTP$ cd iPDC
+sancho@sancho:~/MTP/iPDC$ git add .
+sancho@sancho:~/MTP/iPDC$ git commit -m "first"
+On branch master
+Your branch is up to date with 'origin/master'.
+
+nothing to commit, working tree clean
+
+
+
+
+
+
+
+
+
+
+sancho@sancho:~/MTP$ gedit script.sh
+sancho@sancho:~/MTP$ chmod +x script.sh
+sancho@sancho:~/MTP$ ./script.sh
+On branch master
+Your branch is up to date with 'origin/master'.
+
+nothing to commit, working tree clean
+Everything up-to-date
+sancho@sancho:~/MTP$ 
+
+
+sancho@sancho:~/MTP/iPDC$ git push origin master
+Everything up-to-date
+sancho@sancho:~/MTP/iPDC$ 
+
