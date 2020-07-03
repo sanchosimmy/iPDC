@@ -73,6 +73,16 @@ void B_copy(unsigned char main[], unsigned char tmp[], int ind, int n)
 	}
 };
 
+/* ----------------------------------------------------------------------------	*/
+/* FUNCTION  copy_cbyc():                                	     		*/
+/* ----------------------------------------------------------------------------	*/
+
+void copy_cbyc(unsigned char dst[],unsigned char *s,int size) {
+
+	int i;
+	for(i = 0; i< size; i++)
+		dst[i] = *(s + i);	
+}
 
 /* ----------------------------------------------------------------------------	*/
 /* FUNCTION char* measurement_Return ():	               				*/
@@ -200,7 +210,6 @@ long int c2li (unsigned char temp_3[])
 	return(i);
 }
 
-
 /* ----------------------------------------------------------------------------	*/
 /* FUNCTION uint16_t compute_CRC(unsigned char *message,char length):		     */
 /* Function for calculation of CHECKSUM CRC-CCITT (0xffff) of string of         */
@@ -235,6 +244,15 @@ uint16_t compute_CRC(unsigned char *message,int length)
 void sigchld_handler(int s)
 {
 	while(wait(NULL) > 0);
+}
+
+/* ----------------------------------------------------------------------------	*/
+/* FUNCTION isNthBitSit(unsigned char c, int n):	                            */
+/* Function to check if nth bit is set in char c                                */
+/* ----------------------------------------------------------------------------	*/
+int isNthBitSet (unsigned char c, int n) {
+    static unsigned char mask[] = {1, 2, 4, 8, 16, 32, 63, 128};
+    return ((c & mask[n]) != 0);
 }
 
 /**************************************** End of File *******************************************************/

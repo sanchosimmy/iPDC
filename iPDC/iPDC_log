@@ -1,1 +1,38 @@
-[H[2J[3J
+[H[2J[3JDB Socket:Sucessfully created
+ID Code 12345
+Number of PMU's = 1.
+####         CONNECTION TABLE OF SOURCE DEVICES        ####
+-----------------------------------------------------------------
+|   PMU ID	|  Lower IP 	|	Port	|     Protocol  |
+-----------------------------------------------------------------
+|	12345	|127.0.0.1	|	9500	|	UDP	|
+-----------------------------------------------------------------
+Destination Devices Not Found.
+UDP Socket:Sucessfully created
+UDP Socket Bind :Sucessfull
+TCP Socket:Sucessfully created
+TCP Socket Bind :Sucessfull
+TCP Listen :Sucessfull
+
+UDP Listening on port 9600 for command frames from Upper PDC
+
+TCP Listening on port 9601 for command frames from Upper PDC
+
+Port 9000 for Sending the data frames for archival from iPDC
+sockfd = 19,ipaddress = 127.0.0.1
+CFG-framesize 354
+CFG-ID Code 12345
+CFG-Number of PMU's 1
+
+Configuration frame received.
+***No Stat change***
+CFG-framesize 354
+CFG-ID Code 12345
+CFG-Number of PMU's 1
+
+Return from create_command_frame
+CFG Frame Len 354.
+Sent iPDC Configuration Frame to DB Server
+CMD to send CFG 
+Sent CMD to put data transmission OFF
+Sent CMD to put data transmission ON.

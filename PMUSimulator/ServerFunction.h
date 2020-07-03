@@ -54,7 +54,8 @@ struct sockaddr_in UDP_addr,TCP_addr; /* connector’s address information */
 struct sigaction sa;
 
 int UDP_sockfd,TCP_sockfd,MUL_sockfd; /* socket descriptors */
-int UDP_addr_len,TCP_sin_size, numbytes;
+int TCP_sin_size, numbytes;
+socklen_t UDP_addr_len;
 
 pthread_t UDP_thread,TCP_thread,MUL_thread,DATA_thread;
 FILE *fp_DataFile;
@@ -113,4 +114,5 @@ void  SIGUSR1_handler(int);   /* Signal handler */
 
 void  SIGUSR2_handler(int);   /* Signal handler */
 
+void sendTCPCFGFrame (struct PDC_Details *single_pdc_node);
 /**************************************** End of File *******************************************************/

@@ -34,6 +34,9 @@
 /* Function copies Bytes in a main array */ 
 void B_copy(unsigned char main[], unsigned char tmp[], int ind, int n);
 
+/* FUNCTION  copy_cbyc(): copies Bytes from a char pointer            */
+void copy_cbyc(unsigned char dst[],unsigned char *s,int size);
+
 /* Function to read the measurement file and return measurements for a singel timestamp */ 
 char* measurement_Return ();
 
@@ -60,5 +63,8 @@ uint16_t compute_CRC(unsigned char *message,int length);
 
 /* Function for TCP connection signal handling */ 
 void sigchld_handler(int s);
+
+/* Function to check if nth bit is set in input char */
+int isNthBitSet (unsigned char c, int n);
 
 /**************************************** End of File *******************************************************/
