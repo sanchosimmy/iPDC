@@ -1,6 +1,6 @@
  clear
  clc
-fid= fopen("data.csv", "w+");
+fid= fopen("data_without_row_no.csv", "w+");
 i=1;
 time=now();
 for t=0:1e-3:500-0.001;
@@ -9,7 +9,7 @@ const=400*sqrt(2/3);
 a=const*sin(wt-2*pi/3);
 b=const*sin(wt-2*pi/3);
 c=const*sin(wt+2*pi/3);
- fprintf(fid,"%d,",i);
+ %fprintf(fid,"%d,",i);
 t1= addtodate(time, t, 'second');
 aaa=datestr(t1,'yyyy-mm-dd HH:MM:SS.FFF');
  fprintf(fid,"%s,",aaa);
