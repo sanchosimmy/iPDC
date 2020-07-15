@@ -6,7 +6,7 @@ time=now();
 for t=0:1e-3:500-0.001;
 wt=t*2*pi*50;
 const=400*sqrt(2/3);
-a=const*sin(wt-2*pi/3);
+a=const*sin(wt);
 b=const*sin(wt-2*pi/3);
 c=const*sin(wt+2*pi/3);
  %fprintf(fid,"%d,",i);
