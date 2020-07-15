@@ -22,6 +22,7 @@ COMPILE = $(CC)
 
 $(PROGRAM): $(OBJECTS)
 	$(CC) $(OBJECTS) $(LDLIBS) $(LIBS) -g -o $@
+		rm -f $(CLEAN_OBJECTS) 
 
 %.o: %.c
 	$(COMPILE) $(CFLAGS) -c -g $<
