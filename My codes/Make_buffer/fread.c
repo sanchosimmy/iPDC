@@ -7,10 +7,8 @@ char temp[1024];
 
 //  CONSTANTS
 #define		SIZE_OF_BUFFER		    20000	// Maximum size of buffer
-#define		MAX_LENGTH_OF_STRING	81  // Arbitrary number for temporary strings
-#define		SUCCESS			        0
-#define		FAILURE			        -1
-#define		EXIT_LOOP               1
+
+
 
 //*********************************************************************************************************************
 //DO MALLOC LATER                                                IMPORTANT
@@ -38,6 +36,12 @@ float  D8;
 
 	int	writeIndex	    =	0;	// Index of the write pointer
 	int	bufferLength	=	0;	// Number of values in circular buffer
+	
+	
+void clearbuffer(void)
+{      writeIndex	    =	0;	
+	bufferLength	=	0;
+}	
 
 //#######################################################################################################################################
 //Function to print the contents of the buffer
@@ -176,7 +180,7 @@ loop:
 printf("\n\n\n************************ MENU ************************\n");
 printf("\tEnter choice ");
 printf("\u263A\n");   
-printf("\n\t\t1 Copy N lines to buffer \n\t\t2 Print buffer\n\t\t3 Exit");
+printf("\n\t\t1 Copy N lines to buffer \n\t\t2 Print buffer\n\t\t3 Clear buffer\n\t\t4 Exit");
 printf("\u2620\n");  
 printf("******************************************************\n");
 scanf("%d", &option); 
@@ -190,6 +194,10 @@ if(option==1)
 else if(option==2)
 	{
 	printbuffer();			
+	}
+else if(option==3)
+	{
+	clearbuffer();			
 	}
 else
        exit(0);
