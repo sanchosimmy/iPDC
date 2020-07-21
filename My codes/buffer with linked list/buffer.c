@@ -129,9 +129,10 @@ if(option==1)
 	printf("\n Enter Number of lines to read\t");
 	scanf("%d", &lines); 
 	for(int kk=1;kk<lines+1;kk++)
-		{printf("\n Enter value %d\t",kk);
-	        scanf("%d", &option); 
-	        insert_element(option);
+		{//printf("\n Enter value %d\t",kk);
+	        //scanf("%d", &option); 
+	        //insert_element(option);
+	        insert_element(85);
 	        }
  	 printf("\e[1;1H\e[2J");}
 else if(option==2)
