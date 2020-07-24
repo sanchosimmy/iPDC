@@ -37,12 +37,18 @@ if (!fp)
         printf("Can't open file\n");
        exit(0);
    	}
+/*/////////////////////////////////////////////////////////
+This following part will not me necessary as 
+PHNMR,ANNMR,DGNMR values will be available in the main program
+//////////////////////////////////////////////////////////*/ 
+   	   	
 if(fgets(temp, 1024, fp)!=NULL)
       {
        temp[strlen(temp)-1]='\0';
-       size_buffer=strlen(temp);
+       size_buffer=strlen(temp)+12;//+12 to account for sign
        fseek(fp, 0, SEEK_SET);
        }
+/////////////////////////////////////////////////////////      
 printf("\e[1;1H\e[2J");
 loop:
 printf("\n\n\n************************ MENU ************************\n");
