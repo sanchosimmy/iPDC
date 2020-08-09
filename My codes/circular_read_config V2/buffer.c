@@ -227,32 +227,62 @@ printf(" ]");
 //Display config data
 void display_config()
 {
-printf("\nPMU ID: %d",pmu_id);
+FILE *ff;
+ff = fopen("config.cfg","w");
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+//printf("\n length %d\n",strlen(cfg_info->cfg_STNname));
+for(int kk=0;kk<strlen(cfg_info->cfg_STNname);kk++)
+	{if(cfg_info->cfg_STNname[kk]!=' ') 
+		{fprintf(ff,"%c",cfg_info->cfg_STNname[kk]);
+		}
+	else
+		break;
+}
+fprintf(ff,",%d,2013\n",pmu_id);
+fprintf(ff,"%d,%dA,%dD\n",phnmr+annmr+dgnmr*16,phnmr+annmr,dgnmr*16);
+
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+fclose(ff);
+printf("\nStation Name:%s",cfg_info->cfg_STNname);
+printf("PMU ID:%d",pmu_id);
+printf("\trev_id:2013");
+
+
 printf("\nNo of phasors: %d",phnmr);
-printf("\nNo of analog values: %d",phnmr);
+printf("\nNo of analog values: %d",annmr);
 printf("\nNo of digital values: %d",dgnmr);
 printf("\nPhasor Channels\n");
+int count=0;
 for(int hh=0; hh< (phnmr); hh++)
-{	for(int hi=0; hi< 16; hi++) 
+{	
+for(int hi=0; hi< 16; hi++) 
 		{
-	        if(cfg_info->cfg_phasor_channels[hi]!=' ') printf("%c",cfg_info->cfg_phasor_channels[hi]);
+	         printf("%c",cfg_info->cfg_phasor_channels[hi+count*16]);
 	        }
+	        count++;
 	        printf("\n");
 }
 printf("Analog Channels\n");
+count=0;
 for(int hh=0; hh< (annmr); hh++)
-{	for(int hi=0; hi< 16; hi++) 
+{	
+	for(int hi=0; hi< 16; hi++) 
 		{
-	        if(cfg_info->cfg_analog_channels[hi]!=' ') printf("%c",cfg_info->cfg_analog_channels[hi]);
+	        printf("%c",cfg_info->cfg_analog_channels[hi+count*16]);
 	        }
+	         count++;
 	        printf("\n");
 }
 printf("Digital Channels\n");
+count=0;
 for(int hh=0; hh< (dgnmr); hh++)
-{	for(int hi=0; hi< 16*16; hi++) 
-		{
-	        if(cfg_info->cfg_digital_channels[hi]!=' ') printf("%c",cfg_info->cfg_digital_channels[hi]);
+{
+	for(int hi=0; hi< 16*16; hi++) 
+		{if(hi%16==0)printf("\n");
+	         printf("%c",cfg_info->cfg_digital_channels[hi+count*16]);
+	        
 	        }
+	         count++;
 	        printf("\n");
 }
 //for(int hh=0; hh< (annmr*16); hh++)
@@ -476,6 +506,13 @@ void read_config(){
 					phunit_final_val[tmp_k++] = cline[indx++];
 					phunit_final_val[tmp_k++] = cline[indx++];
 					phunit_final_val[tmp_k++] = cline[indx++];
+					indx=indx-4;
+					printf("\n");
+					for(int ggg=0;ggg<4;ggg++)
+					{printf("%d_",cline[indx++]);}
+					printf("\n");
+					
+
 				}
 				for(j=0, tmp_k=0; j<cfg_info->cfg_annmr_val; j++)/* FACTOR VALUES for Analog */
 				{
@@ -483,6 +520,13 @@ void read_config(){
 					anunit_final_val[tmp_k++] = cline[indx++];
 					anunit_final_val[tmp_k++] = cline[indx++];
 					anunit_final_val[tmp_k++] = cline[indx++];
+									indx=indx-4;
+					printf("\n");
+					for(int ggg=0;ggg<4;ggg++)
+					{printf("%d_",cline[indx++]);}
+					printf("\n");
+									
+					
 				}
 			}
 		}

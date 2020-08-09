@@ -78,6 +78,7 @@ void insert_element(char dat[]);
 void print_buffer(); 
 void read_config();
 void display_config();
+int c2i (unsigned char temp[]);
 
 //Main program ####################################################    Main program
 void main() 
@@ -226,15 +227,53 @@ printf(" ]");
 //Display config data
 void display_config()
 {
-printf("\n%d\n",pmu_id);
-for(int hh=0; hh< (phnmr*16); hh++)
-{
-printf("%c\n",cfg_info->cfg_phasor_channels[hh]);
+
+printf("\nStation Name:%s",cfg_info->cfg_STNname);
+printf("PMU ID:%d",pmu_id);
+printf("\trev_id:2013");
+
+
+printf("\nNo of phasors: %d",phnmr);
+printf("\nNo of analog values: %d",phnmr);
+printf("\nNo of digital values: %d",dgnmr);
+printf("\nPhasor Channels\n");
+int count=0;
+for(int hh=0; hh< (phnmr); hh++)
+{	
+for(int hi=0; hi< 16; hi++) 
+		{
+	         printf("%c",cfg_info->cfg_phasor_channels[hi+count*16]);
+	        }
+	        count++;
+	        printf("\n");
 }
-for(int hh=0; hh< (annmr*16); hh++)
-{
-printf("%c\n",cfg_info->cfg_analog_channels[hh]);
+printf("Analog Channels\n");
+count=0;
+for(int hh=0; hh< (annmr); hh++)
+{	
+	for(int hi=0; hi< 16; hi++) 
+		{
+	        printf("%c",cfg_info->cfg_analog_channels[hi+count*16]);
+	        }
+	         count++;
+	        printf("\n");
 }
+printf("Digital Channels\n");
+count=0;
+for(int hh=0; hh< (dgnmr); hh++)
+{
+	for(int hi=0; hi< 16*16; hi++) 
+		{if(hi%16==0)printf("\n");
+	         printf("%c",cfg_info->cfg_digital_channels[hi+count*16]);
+	        
+	        }
+	         count++;
+	        printf("\n");
+}
+//for(int hh=0; hh< (annmr*16); hh++)
+//{
+//if(strcmp(cfg_info->cfg_analog_channels[hh],"")) printf("%c\n",cfg_info->cfg_analog_channels[hh]);
+//}
 
 
 }
@@ -468,4 +507,13 @@ void read_config(){
 	else
 	{printf("\n%s\n","Screwed we are !!!");
 	}
+}
+int c2i (unsigned char temp[])
+{
+	int i;
+
+	i = temp[0];
+	i<<=8;
+	i |=temp[1];
+	return(i);
 }

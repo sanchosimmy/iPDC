@@ -54,7 +54,7 @@
 #include  <dirent.h>
 #include  <sys/wait.h>
 #include  "function.h"
-#include  "ServerFunction.h"
+//#include  "ServerFunction.h"
 
 #define channel_name 100
 

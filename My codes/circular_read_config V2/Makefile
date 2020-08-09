@@ -14,14 +14,12 @@ CFLAGS=`pkg-config --cflags --cflags gtk+-3.0`
 
 #Sancho
 
-SOURCES = \
-	buffer.c \
-	function.c function.h \
-        ServerFunction.c ServerFunction.h \
-        ShearedMemoryStructure.h \
 
-OBJECTS =  buffer.o function.o ServerFunction.o
-CLEAN_OBJECTS = buffer.o function.o ServerFunction.o
+
+
+
+OBJECTS =  buffer.o 
+CLEAN_OBJECTS = buffer.o 
 
 PROGRAM = buffer
 
