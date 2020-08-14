@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include<math.h>
 
 
 #include <stdint.h> ////for uint16_t
@@ -60,6 +61,8 @@ int size_buffer=1000;
 int lines;
 int option;
 
+int f;
+
 struct node 
 {
    char *data;
@@ -78,7 +81,10 @@ void insert_element(char dat[]);
 void print_buffer(); 
 void read_config();
 void display_config();
+void write_data();
 int c2i (unsigned char temp[]);
+float ReverseFloat( const float inFloat );
+
 
 //Main program ####################################################    Main program
 void main() 
@@ -226,71 +232,163 @@ printf(" ]");
 
 //Display config data
 void display_config()
-{
+{ int flag_space=0;
 FILE *ff;
 ff = fopen("config.cfg","w");
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 //printf("\n length %d\n",strlen(cfg_info->cfg_STNname));
 for(int kk=0;kk<strlen(cfg_info->cfg_STNname);kk++)
-	{if(cfg_info->cfg_STNname[kk]!=' ') 
-		{fprintf(ff,"%c",cfg_info->cfg_STNname[kk]);
-		}
-	else
-		break;
-}
+	{ flag_space=0;
+	       for(int fff=kk;fff<strlen(cfg_info->cfg_STNname);fff++)  //Checking for space
+		{if(cfg_info->cfg_STNname[fff]!=' ') flag_space=1;}
+		if(flag_space==0) break;
+		
+		fprintf(ff,"%c",cfg_info->cfg_STNname[kk]);
+		printf("%c",cfg_info->cfg_STNname[kk]);
+
+	}
 fprintf(ff,",%d,2013\n",pmu_id);
+printf(",%d,2013\n",pmu_id);
 fprintf(ff,"%d,%dA,%dD\n",phnmr+annmr+dgnmr*16,phnmr+annmr,dgnmr*16);
-
+printf("%d,%dA,%dD\n",phnmr+annmr+dgnmr*16,phnmr+annmr,dgnmr*16);
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-fclose(ff);
-printf("\nStation Name:%s",cfg_info->cfg_STNname);
-printf("PMU ID:%d",pmu_id);
-printf("\trev_id:2013");
+
+//printf("\nStation Name:%s",cfg_info->cfg_STNname);
+//printf("PMU ID:%d",pmu_id);
+//printf("\trev_id:2013");
 
 
-printf("\nNo of phasors: %d",phnmr);
-printf("\nNo of analog values: %d",annmr);
-printf("\nNo of digital values: %d",dgnmr);
-printf("\nPhasor Channels\n");
-int count=0;
+//printf("\nNo of phasors: %d",phnmr);
+//printf("\nNo of analog values: %d",annmr);
+//printf("\nNo of digital values: %d",dgnmr);
+//printf("\nPhasor Channels\n");
+int count=0,analog=1;
 for(int hh=0; hh< (phnmr); hh++)
-{	
-for(int hi=0; hi< 16; hi++) 
-		{
-	         printf("%c",cfg_info->cfg_phasor_channels[hi+count*16]);
-	        }
-	        count++;
-	        printf("\n");
-}
-printf("Analog Channels\n");
-count=0;
-for(int hh=0; hh< (annmr); hh++)
-{	
+{				
+fprintf(ff,"%d,",analog++);	
+printf("%d,",analog-1);
 	for(int hi=0; hi< 16; hi++) 
 		{
-	        printf("%c",cfg_info->cfg_analog_channels[hi+count*16]);
+		flag_space=0;
+		for(int fff=hi;fff<16;fff++)  //Checking for non-space chara ahead
+			{if(cfg_info->cfg_phasor_channels[fff+count*16]!=' ') flag_space=1;}
+		if(flag_space==0) break;
+		printf("%c",cfg_info->cfg_phasor_channels[hi+count*16]);
+	        fprintf(ff,"%c",cfg_info->cfg_phasor_channels[hi+count*16]);
 	        }
-	         count++;
-	        printf("\n");
+
+ 		if(phunit_final_val[count*4]==0)
+	        {fprintf(ff,", , ,kV,1,0,0,-3.40282e+38,3.40282e+38,1,1,P\n");
+	        printf(", , ,kV,1,0,0,-3.40282e+38,3.40282e+38,1,1,P\n");}//channel_multiplier=1 channel offset=0
+	        else if(phunit_final_val[count*4]==1)
+	        {fprintf(ff,", , ,kA,1,0,0,-3.40282e+38,3.40282e+38,1,1,P\n");
+	        printf(", , ,kA,1,0,0,-3.40282e+38,3.40282e+38,1,1,P\n");}
+	        count++;	    
 }
-printf("Digital Channels\n");
+
+/*
+printf("\n\n");
+printf("\t%d\t\n",phunit_final_val[0]);
+printf("\t%d\t\n",phunit_final_val[4]);
+printf("\n\n");
+printf("\t%d\t\n",anunit_final_val[0]);
+printf("\t%d\t\n",anunit_final_val[4]);
+printf("\t%d\t\n",anunit_final_val[8]);
+printf("\t%d\t\n",anunit_final_val[12]);
+printf("\t%d\t\n",anunit_final_val[16]);
+printf("\t%d\t\n",anunit_final_val[20]);
+
+printf("\n\n"); */
+//printf("Analog Channels\n");
 count=0;
-for(int hh=0; hh< (dgnmr); hh++)
+for(int hh=0; hh< (annmr); hh++)
 {
-	for(int hi=0; hi< 16*16; hi++) 
-		{if(hi%16==0)printf("\n");
-	         printf("%c",cfg_info->cfg_digital_channels[hi+count*16]);
-	        
+fprintf(ff,"%d,",analog++);
+printf("%d,",analog-1);	
+	for(int hi=0; hi< 16; hi++) 
+		{ //if(cfg_info->cfg_analog_channels[hi+count*16]!=' ')
+		flag_space=0;
+		for(int fff=hi;fff<16;fff++)  //Checking for space
+			{if(cfg_info->cfg_analog_channels[fff+count*16]!=' ') flag_space=1;}
+		if(flag_space==0) break;
+	         printf("%c",cfg_info->cfg_analog_channels[hi+count*16]);
+	         fprintf(ff,"%c",cfg_info->cfg_analog_channels[hi+count*16]);
 	        }
-	         count++;
-	        printf("\n");
+
+	        
+	        if(anunit_final_val[count*4]==0)
+	        {fprintf(ff,", , ,PMO,1,0,0,-3.40282e+38,3.40282e+38,1,1,P\n");
+	        printf(", , ,PMO,1,0,0,-3.40282e+38,3.40282e+38,1,1,P\n");}//channel_multiplier=1 channel offset=0
+	        else if(anunit_final_val[count*4]==1)
+	        {fprintf(ff,", , ,RMS,1,0,0,-3.40282e+38,3.40282e+38,1,1,P\n");
+	        printf(", , ,RMS,1,0,0,-3.40282e+38,3.40282e+38,1,1,P\n");}
+	        else if(anunit_final_val[count*4]==2)
+	        {fprintf(ff,", , ,PEAK,1,0,0,-3.40282e+38,3.40282e+38,1,1,P\n");
+	        printf(", , ,PEAK,1,0,0,-3.40282e+38,3.40282e+38,1,1,P\n");}
+	        count++;	        
+	        
+	        
+	        
+	        
+	        //fprintf(ff,", , ,temp_unit,1,0\n");
+	        //printf(", , ,temp_unit,1,0\n");
 }
-//for(int hh=0; hh< (annmr*16); hh++)
-//{
-//if(strcmp(cfg_info->cfg_analog_channels[hh],"")) printf("%c\n",cfg_info->cfg_analog_channels[hh]);
-//}
+//printf("Digital Channels\n");
+count=0;
+analog=1;
+for(int hh=0; hh< (dgnmr*16); hh++)
+{
+fprintf(ff,"%d,",analog++);
+printf("%d,",analog-1);	
+	for(int hi=0; hi< 16; hi++) 
+		{ //if(cfg_info->cfg_digital_channels[hi+count*16]!=' ')
+		flag_space=0;
+		for(int fff=hi;fff<16;fff++)  //Checking for space
+			{if(cfg_info->cfg_digital_channels[fff+count*16]!=' ') flag_space=1;}
+		if(flag_space==0) break;
+	         printf("%c",cfg_info->cfg_digital_channels[hi+count*16]);
+	         fprintf(ff,"%c",cfg_info->cfg_digital_channels[hi+count*16]);
+	        }
+	        count++;
+	        fprintf(ff,", , ,0\n");
+	        printf(", , ,0\n");
+}
+	        fprintf(ff,"%d\n",f);
+	        printf("%d\n",f);
 
+	        fprintf(ff,"%s\n","1");
+	        printf("%s\n","1");
+	        
+	        
+	        //fprintf(ff,"%d,",cfg_info->cfg_dataRate);
+	        //printf("%d,",cfg_info->cfg_dataRate);
+	       fprintf(ff,"%d,",1000);
+	       printf("%d,",1000);
+	        
+        
+	        fprintf(ff,"%s\n","endsamp");
+	        printf("%s\n","endsamp");
+	        
+	       fprintf(ff,"%s\n","Time_first_data");
+	        printf("%s\n","Time_first_data");
+	        	       
+	       fprintf(ff,"%s\n","Time_trigger");
+	        printf("%s\n","Time_trigger");
+	        
+	        fprintf(ff,"%s\n","float32");
+	        printf("%s\n","float32");
+	        	        
+	        fprintf(ff,"%s\n","time_stamp_multiplication_factor");
+	        printf("%s\n","time_stamp_multiplication_factor");
+	        	        
+	       fprintf(ff,"%s\n","+5h30,+5h30");
+	        printf("%s\n","+5h30,+5h30");
+	        
+	       fprintf(ff,"%s\n","0000,leapsec");
+	        printf("%s\n","0000,leapsec");
 
+	        
+fclose(ff);
 }
 
 //Read config file
@@ -464,7 +562,16 @@ void read_config(){
 				cfg_info->cfg_dgnmr_val = dgnmr;
 
 				/* To escape the some of fields in cfg frame */
-				indx = 46 + (16*phnmr) + (16*annmr) + (256*dgnmr) + (4*phnmr) + (4*annmr) + (4*dgnmr) + 2;
+				indx = 46 + (16*phnmr) + (16*annmr) + (256*dgnmr) + (4*phnmr) + (4*annmr) + (4*dgnmr); //+ 2;
+				
+				temp[0] = cline[indx++];
+				temp[1] = cline[indx++];
+				
+				f= c2i(temp);
+				if(f==0) f=60;
+				else f=50;
+				
+				
 				temp[0] = cline[indx++];
 				temp[1] = cline[indx++];
 				cfgcnt = c2i(temp);
@@ -506,11 +613,9 @@ void read_config(){
 					phunit_final_val[tmp_k++] = cline[indx++];
 					phunit_final_val[tmp_k++] = cline[indx++];
 					phunit_final_val[tmp_k++] = cline[indx++];
-					indx=indx-4;
-					printf("\n");
-					for(int ggg=0;ggg<4;ggg++)
-					{printf("%d_",cline[indx++]);}
-					printf("\n");
+
+					{printf("\n\n%d\n",cline[indx-4]);}
+					{printf("\n%d\n\n",phunit_final_val[tmp_k-4]);}
 					
 
 				}
@@ -520,13 +625,8 @@ void read_config(){
 					anunit_final_val[tmp_k++] = cline[indx++];
 					anunit_final_val[tmp_k++] = cline[indx++];
 					anunit_final_val[tmp_k++] = cline[indx++];
-									indx=indx-4;
-					printf("\n");
-					for(int ggg=0;ggg<4;ggg++)
-					{printf("%d_",cline[indx++]);}
-					printf("\n");
-									
-					
+					{printf("\n\n%d\n",cline[indx-4]);}
+					{printf("\n%d\n\n",anunit_final_val[tmp_k-4]);}					
 				}
 			}
 		}
@@ -545,4 +645,18 @@ int c2i (unsigned char temp[])
 	i<<=8;
 	i |=temp[1];
 	return(i);
+}
+ffloat ReverseFloat( const float inFloat )
+{
+   float retVal;
+   char *floatToConvert = ( char* ) & inFloat;
+   char *returnFloat = ( char* ) & retVal;
+
+   // swap the bytes into a temporary buffer
+   returnFloat[0] = floatToConvert[3];
+   returnFloat[1] = floatToConvert[2];
+   returnFloat[2] = floatToConvert[1];
+   returnFloat[3] = floatToConvert[0];
+
+   return retVal;
 }
