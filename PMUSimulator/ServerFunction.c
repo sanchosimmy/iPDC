@@ -1331,7 +1331,12 @@ void* UDP_PMU()
                               }
                          }
                     }
-
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+				else if((c & 0x010f) == 0x010f)		/* Command frame for Header frame request from PDC */
+				{ printf("\nReceived DR Frame!\n");								
+					
+				}
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 			} /* end of processing with received Command frame */
 
 			else		/* If it is other than command frame */				

@@ -63,10 +63,11 @@ SOURCES = \
 	ServerFunction.c ServerFunction.h \
 	CfgFunction.c CfgFunction.h \
 	CfgGuiFunctions.c CfgGuiFunctions.h \
+	DisturbanceRecorder.c DisturbanceRecorder.h \
     ShearedMemoryStructure.h \
 
-OBJECTS =  pmu.c PmuGui.o function.o ServerFunction.o CfgFunction.o CfgGuiFunctions.o 
-CLEAN_OBJECTS = PmuGui.o function.o ServerFunction.o CfgFunction.o CfgGuiFunctions.o pmu.xml
+OBJECTS =  pmu.c PmuGui.o function.o ServerFunction.o CfgFunction.o CfgGuiFunctions.o DisturbanceRecorder.o
+CLEAN_OBJECTS = PmuGui.o function.o ServerFunction.o CfgFunction.o CfgGuiFunctions.o DisturbanceRecorder.o pmu.xml
 
 PROGRAM = PMU
 
