@@ -85,7 +85,7 @@ void delete_all();
 void insert_element(char dat[]);
 void print_buffer(); 
 void read_config();
-void display_config();
+void make_config();
 void write_data();
 void write_data_helper(char* data,long int i,FILE* dat_file);
 int c2i (unsigned char temp[]);
@@ -164,7 +164,7 @@ else if(option==5)
 	{ 
          read_config();
          write_data();
-         display_config();    		
+         make_config();    		
 	}		 
 else
        {
@@ -245,7 +245,7 @@ if(tail != NULL)
 }
 
 //Display config data
-void display_config()
+void make_config()
 { int flag_space=0;
 FILE *cfg_file;
 cfg_file = fopen("pmu.cfg","w");
