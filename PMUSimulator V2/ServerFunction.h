@@ -114,5 +114,9 @@ void  SIGUSR1_handler(int);   /* Signal handler */
 
 void  SIGUSR2_handler(int);   /* Signal handler */
 
+void tcp_send_dr_data(struct PDC_Details *temp_pdc);
+
 void sendTCPCFGFrame (struct PDC_Details *single_pdc_node);
 /**************************************** End of File *******************************************************/
+
+void udp_send_dr_data(struct PDC_Details *temp_pdc);
