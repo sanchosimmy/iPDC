@@ -1410,7 +1410,7 @@ fprintf(cfg_file,"%d,",analog++);
 	       fprintf(cfg_file,"%s\n","0000,0");
 	        //printf("%s\n","0000,0");	
 fclose(cfg_file);	        
-cfg_file = fopen("pmu.cfg","r");	        
+/*cfg_file = fopen("../share/pmu.cfg","r");	        
 	        fseek(cfg_file, 0, SEEK_END);
 long fsize = ftell(cfg_file );
 fseek(cfg_file, 0, SEEK_SET);  // same as rewind(f); 
@@ -1422,7 +1422,7 @@ printf("\n Size :  %ld \t Text :  %s  END\n",fsize,string_cfg_file);
 
 	
 	        
-fclose(cfg_file);
+fclose(cfg_file); */
 }
 
 

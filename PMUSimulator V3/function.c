@@ -43,7 +43,27 @@
 /*   7. int c2i (unsigned char temp_2[])		 			               */
 /*   8. long int c2li (unsigned char temp_3[])				               */
 /*   9. uint16_t compute_CRC(unsigned char *message,char length)		          */
-/*   10.void sigchld_handler(int s)			 			               */
+/*   10.void sigchld_handler(int s)			 			             
+unsigned int to_intconvertor(unsigned char array[]);
+void long_int_to_ascii_convertor(unsigned long int n,unsigned char hex[]);
+void int_to_ascii_convertor(unsigned int n,unsigned char hex[]) ;
+
+int ncmp_cbyc(unsigned char dst[],unsigned char src[],int size) ;
+void byte_by_byte_copy(unsigned char dst[],unsigned char src[],int index,int n);
+unsigned long int to_long_int_convertor(unsigned char array[]) ;
+uint16_t compute_CRC(unsigned char *message,int length);
+unsigned int to_long_int_convertor1(unsigned char array[]);
+
+  */
+
+
+
+
+
+
+
+
+
 /*                                                                              */
 /* ---------------------------------------------------------------------------- */
 
@@ -256,3 +276,117 @@ int isNthBitSet (unsigned char c, int n) {
 }
 
 /**************************************** End of File *******************************************************/
+
+
+/* ----------------------------------------------------------------------------	*/
+/* FUNCTION  to_intconvertor():                                	     		*/
+/* ----------------------------------------------------------------------------	*/
+
+unsigned int to_intconvertor(unsigned char array[]) {
+
+	unsigned int n;
+	n = array[0];
+	n <<= 8;
+	n |= array[1];
+	return n;
+}
+
+
+/* ----------------------------------------------------------------------------	*/
+/* FUNCTION  long_int_to_ascii_convertor():                                	*/
+/* ----------------------------------------------------------------------------	*/
+
+void long_int_to_ascii_convertor(unsigned long int n,unsigned char hex[]) {
+
+	hex[0] = n >> 24;
+	hex[1] = n >> 16;
+	hex[2] = n >> 8;
+	hex[3] = n ;
+}
+
+
+/* ----------------------------------------------------------------------------	*/
+/* FUNCTION  int_to_ascii_convertor(): 		                               	*/
+/* ----------------------------------------------------------------------------	*/
+
+void int_to_ascii_convertor(unsigned int n,unsigned char hex[]) {
+
+	hex[0] = n >> 8;
+	hex[1] = n ;
+}
+
+
+/* ----------------------------------------------------------------------------	*/
+/* FUNCTION  ncmp_cbyc():                                	     		*/
+/* ----------------------------------------------------------------------------	*/
+
+int ncmp_cbyc(unsigned char dst[],unsigned char src[],int size) {
+
+	int i,flag = 0;
+	for(i = 0; i< size; i++)	{
+
+		if(dst[i] != src[i]) {
+
+			flag = 1;
+			break; 	
+		}	
+	}		
+	return flag;
+}
+
+
+/* ----------------------------------------------------------------------------	*/
+/* FUNCTION  byte_by_byte_copy():                                	     	*/
+/* ----------------------------------------------------------------------------	*/
+
+void byte_by_byte_copy(unsigned char dst[],unsigned char src[],int index,int n) {
+
+	int i;
+	for(i = 0;i<n; i++) 
+		dst[index + i] = src[i];					
+}
+
+
+/* ----------------------------------------------------------------------------	*/
+/* FUNCTION  to_long_int_convertor():                                	     	*/
+/* ----------------------------------------------------------------------------	*/
+
+unsigned long int to_long_int_convertor(unsigned char array[]) {
+
+	unsigned long int n;
+	n = array[0];
+	n <<= 8;
+	n |= array[1];
+	n <<= 8;
+	n |= array[2];
+	n <<= 8;
+	n |= array[3];
+	return n;
+}
+
+
+
+
+/* ----------------------------------------------------------------------------	*/
+/* FUNCTION  to_long_int_convertor1():                               	     	*/
+/* ----------------------------------------------------------------------------	*/
+
+unsigned int to_long_int_convertor1(unsigned char array[]) {
+
+	unsigned int n;
+/*	n = array[0];
+	n <<= 8;
+	n |= array[1];
+	n <<= 8;
+	n |= array[2];
+	n <<= 8;
+	//n |= 0;
+*/
+	n = array[0] <<16;
+	n |= array[1] << 8;
+	n |= array[2];
+
+	return n;
+
+}
+

@@ -47,6 +47,7 @@
 #include "function.h"
 #include "ServerFunction.h"
 #include "ShearedMemoryStructure.h"
+#include "CfgFunction.h"
 
 
 /* -------------------------------------------------------------------------------------- */
@@ -91,6 +92,7 @@ int df_data_rate = 0;
 int fsecNum = 0, PhasorType[50];
 long int df_soc, fsec = 0, curnt_soc = 0, prev_soc = 0,soc1,soc2;
 long int send_thrd_id = 0;
+
 
 /* Initialize the pthread_mutex for PDC Objects */
 pthread_mutex_t mutex_pdc_object = PTHREAD_MUTEX_INITIALIZER;
@@ -2164,22 +2166,61 @@ fread(string_cfg_file, 1, fsize,cfg_file);
 string_cfg_file[fsize] = 0;
 fclose(cfg_file);
 
+
+	long int sec,frac = 0;
+	unsigned char fsize_char[2],pmuid[2],soc[4],fracsec[4];
+	uint16_t chk;
+
+	memset(drframe_cfg,'\0',fsize+16);
+	memset(fsize_char,'\0',2);
+
+	int_to_ascii_convertor(fsize,fsize_char);
+	int_to_ascii_convertor(df_pmu_id,pmuid);
+
+	sec = (long int)time (NULL);
+	long_int_to_ascii_convertor(sec,soc);
+	long_int_to_ascii_convertor(frac,fracsec);           //what to do with fracsec
+	
+	DRSYNC_cfg[0] = 0xaa;
+	DRSYNC_cfg[1] = 0x61;
+	DRSYNC_cfg[2] = '\0';
+
+	int index = 0;
+          unsigned char * ptr_temp=drframe_cfg;
+	byte_by_byte_copy(ptr_temp,DRSYNC_cfg,index,2); // SEND CFG
+	index += 2;
+	byte_by_byte_copy(ptr_temp,fsize_char,index,2);
+	index += 2;
+	byte_by_byte_copy(ptr_temp,pmuid,index,2);
+	index += 2;
+	byte_by_byte_copy(ptr_temp,soc,index,4);
+	index += 4;
+	byte_by_byte_copy(ptr_temp,fracsec,index,4);       //Reallyyy ??????????//
+	index += 4;
+	byte_by_byte_copy(ptr_temp,string_cfg_file,index,fsize);
+	index =index+ fsize;
+	chk = compute_CRC(ptr_temp,index);
+	drframe_cfg[index++] = (chk >> 8) & ~(~0<<8);  	/* CHKSUM high byte; */
+	drframe_cfg[index] = (chk ) & ~(~0<<8);     	/* CHKSUM low byte;  */
+
+
 	int new_fd = single_pdc_node->sockfd;
     
 
     /* Send Configuration frame to PDC Device */
-    //pthread_mutex_lock(&mutex_pdc_object);
+    pthread_mutex_lock(&mutex_pdc_object);
 
-    if (send(new_fd,string_cfg_file,fsize, 0) == -1)
+    if (send(new_fd,string_cfg_file,fsize+16, 0) == -1)
     {
         perror("sendto");
     }
     single_pdc_node->STAT_change = 0;
     single_pdc_node->pmu_cfgsent = 1;
 
-    //pthread_mutex_unlock(&mutex_pdc_object);     
+    pthread_mutex_unlock(&mutex_pdc_object);     
 
-    printf("\nPMU CFG-2 frame [of %d Bytes] is sent to PDC.\n", cfg_size);
+    printf("\nPMU DR frame [of %d Bytes] is sent to PDC.\n %s \n",fsize,string_cfg_file);
+    free(string_cfg_file);
 }
 
 
