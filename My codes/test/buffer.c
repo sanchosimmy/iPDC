@@ -3,6 +3,8 @@
 #include <sys/time.h>   
 #include <sys/resource.h> 
 #include"DisturbanceRecorder.h"
+#include<string.h>
+#include <stdlib.h>
 
 ///////////////////////////////////
 // measure elapsed real time using the "clock_gettime" call. 
@@ -14,22 +16,20 @@
 //    long     tv_nsec;       /* nanoseconds */                                                         
 // };  
 
-void main () { 
-int tt=5;
-    struct timespec start, finish; 
-while(1)
-{
-  // chew up some CPU time
-    int i,j,k; 
-    for (i=0; i<100000000; i++) 
-    for (j=0; j<1; j++) 
-    { k==i*i; }  
-       
- clock_gettime(CLOCK_REALTIME, &start); 
-    printf(" %.6lf\n",(double)start.tv_sec+(double)start.tv_nsec/1000000000); 
-    printf("%d\n",print_shit(tt));
- } 
- 
+void main() 
+{ FILE *cfg_file;
+cfg_file = fopen("pmu.cfg","r");
+fseek(cfg_file, 0, SEEK_END);
+long fsize = ftell(cfg_file );
+fseek(cfg_file, 0, SEEK_SET);  // same as rewind(f); 
+
+char *string_cfg_file = malloc(fsize + 1);
+fread(string_cfg_file, 1, fsize,cfg_file);
+string_cfg_file[fsize] = 0;
+fclose(cfg_file);
+printf("\n Size :  %ld \t Text :  %s  END\n",fsize,string_cfg_file);
+
+return;
 } 
 /*
   // chew up some CPU time
