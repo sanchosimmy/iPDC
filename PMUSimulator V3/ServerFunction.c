@@ -1590,6 +1590,7 @@ void* TCP_CONNECTIONS(void * temp_pdc)
                     printf("\nCommand Frame for Instantaneous Values request is received from PDC.\n"); 
                     sancho_main();
                     tcp_send_dr_data(single_pdc_node);
+                    printf("\nTest.\n"); 
                 }
 			} /* end of processing with received Command frame */
 
@@ -2170,11 +2171,11 @@ fclose(cfg_file);
 	long int sec,frac = 0;
 	unsigned char fsize_char[2],pmuid[2],soc[4],fracsec[4];
 	uint16_t chk;
-
-	memset(drframe_cfg,'\0',fsize+16);
+        char *drframe_cfg = malloc(fsize + 17);
+	memset(drframe_cfg,'\0',fsize+17);
 	memset(fsize_char,'\0',2);
 
-	int_to_ascii_convertor(fsize,fsize_char);
+	int_to_ascii_convertor(fsize+16,fsize_char);
 	int_to_ascii_convertor(df_pmu_id,pmuid);
 
 	sec = (long int)time (NULL);
@@ -2198,29 +2199,38 @@ fclose(cfg_file);
 	byte_by_byte_copy(ptr_temp,fracsec,index,4);       //Reallyyy ??????????//
 	index += 4;
 	byte_by_byte_copy(ptr_temp,string_cfg_file,index,fsize);
-	index =index+ fsize;
-	chk = compute_CRC(ptr_temp,index);
+	index =index+fsize;
+	chk = compute_CRC(ptr_temp,fsize+14);
 	drframe_cfg[index++] = (chk >> 8) & ~(~0<<8);  	/* CHKSUM high byte; */
-	drframe_cfg[index] = (chk ) & ~(~0<<8);     	/* CHKSUM low byte;  */
-
-
+	drframe_cfg[index++] = (chk ) & ~(~0<<8);     	/* CHKSUM low byte;  */
+	drframe_cfg[index]='\0';
+        
+printf("\n AAAAAAAAAAAA %ld AAAAAAAAAAAAA\n%s & %s \n",chk,drframe_cfg,string_cfg_file);
 	int new_fd = single_pdc_node->sockfd;
     
-
+                FILE *faaaaf;
+		faaaaf = fopen("../pmu_send.cfg","w");
+		fprintf(faaaaf,"%s",ptr_temp);
+		fclose(faaaaf);
     /* Send Configuration frame to PDC Device */
     pthread_mutex_lock(&mutex_pdc_object);
 
-    if (send(new_fd,string_cfg_file,fsize+16, 0) == -1)
+    if (send(new_fd,ptr_temp,fsize+16, 0) == -1)
     {
         perror("sendto");
     }
-    single_pdc_node->STAT_change = 0;
+
+    single_pdc_node->STAT_change = 0;          //Whyyyyyyyyyyyyyyyyyyyyy
     single_pdc_node->pmu_cfgsent = 1;
 
     pthread_mutex_unlock(&mutex_pdc_object);     
 
-    printf("\nPMU DR frame [of %d Bytes] is sent to PDC.\n %s \n",fsize,string_cfg_file);
+    printf("\nPMU DR frame [of %d Bytes] is sent to PDC.\n",fsize);
+    
     free(string_cfg_file);
+    free(drframe_cfg);
+    
+    return;
 }
 
 

@@ -639,6 +639,7 @@ void PMU_process_UDP(unsigned char *udp_buffer,struct sockaddr_in PMU_addr,int s
 
 void PMU_process_TCP(unsigned char tcp_buffer[],int sockfd) {
 
+
 	int stat_status;
 	unsigned int id;
 	unsigned char id_char[2];
@@ -650,6 +651,8 @@ void PMU_process_TCP(unsigned char tcp_buffer[],int sockfd) {
 	unsigned char c = tcp_buffer[1];
 	c <<= 1;
 	c >>= 5;
+	
+//printf("\n %s \n",tcp_buffer);
 
 	if(c == 0x00){ 							/* If data frame */
 
@@ -705,9 +708,49 @@ void PMU_process_TCP(unsigned char tcp_buffer[],int sockfd) {
 				perror("send");
 			free(cmdframe);
 		}
-	} else {	
+	}else if(c == 0x06) { 	
+		printf("Kitti Monaeeeeeee!!!!!!!!!");
+		FILE *faaf;
+		faaf = fopen("../pmu.cfg","w");
+		fprintf(faaf,"%s",tcp_buffer);
+		fclose(faaf);
+
+	/*					// If DR .cfg file
+		// Added by Sancho 2020_09_10 
+		unsigned char *ptr,length[2];
+		unsigned int flen;	
+		uint16_t cfg_crc;
+
+		ptr = tcp_buffer;
+		ptr += 2;
+		copy_cbyc(length,ptr,2);
+		flen = to_intconvertor(length);
+		ptr += 12;
+		cfg_crc = compute_CRC(ptr,flen-16);
+	//	printf("Bingo ---- Config CRC --- %d \n",cfg_crc);
+
+		if (previous_crc == cfg_crc) {
+			return;  
+		} else
+		{
+			previous_crc = cfg_crc;
+			// Added by Gopal 2013_12_15 
+			printf("\nConfiguration frame received.\n");
+			cfgparser(tcp_buffer);
+			unsigned char *cmdframe = malloc(19);
+			cmdframe[18] = '\0';
+			create_command_frame(2,id,(char *)cmdframe);
+			printf("Return from create_command_frame().\n");
+
+			// Command frame sent to send the data frames 
+			if (send(sockfd,cmdframe,18, 0)== -1) 
+				perror("send");
+			free(cmdframe);
+		} */
+	}  else {	
 
 		printf("\nErroneous frame\n");
+
 	}	
 	fflush(stdout);
 } 

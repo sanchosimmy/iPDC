@@ -346,25 +346,30 @@ void* connect_pmu_tcp(void *temp) {
 					pthread_mutex_unlock(&mutex_Upper_Layer_Details);
 
 				} else {
+				
+				
 					ptr = tcp_BUF;
 					ptr += 2;
 					copy_cbyc(length,ptr,2);
 					flen = to_intconvertor(length);
 					if (flen > 4)
-					{
+					{  
 						cal_crc = compute_CRC(tcp_BUF,flen-2); 
-						ptr += flen -4;									
+					ptr += flen -4;									
 						frame_crc = *ptr;
 						frame_crc <<= 8;
 						frame_crc |= *(ptr + 1);
-
+                                             
 						if(frame_crc != cal_crc) {
-
-							continue;		
-						}
+                                                  printf("\n Flen :  %ld Frpm file %ld   Computed %ld\n",flen,frame_crc,cal_crc);
+							continue;
+							}
+							
+						
 					} else {
 						continue;
-					}
+					} 
+					
 					/*					if (sendto(DB_sockfd,tcp_BUF, MAXBUFLEN-1, 0,
 										(struct sockaddr *)&DB_Server_addr,sizeof(DB_Server_addr)) == -1) {
 										perror("sendto");
