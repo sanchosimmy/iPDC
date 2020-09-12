@@ -361,7 +361,7 @@ void* connect_pmu_tcp(void *temp) {
 						frame_crc |= *(ptr + 1);
                                              
 						if(frame_crc != cal_crc) {
-                                                  printf("\n Flen :  %ld Frpm file %ld   Computed %ld\n",flen,frame_crc,cal_crc);
+                                                 // printf("\n Flen :  %ld Frpm file %ld   Computed %ld\n",flen,frame_crc,cal_crc);
 							continue;
 							}
 							
@@ -376,6 +376,7 @@ void* connect_pmu_tcp(void *temp) {
 										}
 					 */
 					tcp_BUF[bytes_read] = '\0';
+					//printf("\n %s\n",tcp_BUF);
 					PMU_process_TCP(tcp_BUF,tcp_sockfd);
 				}  
 

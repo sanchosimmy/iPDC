@@ -2208,10 +2208,11 @@ fclose(cfg_file);
 printf("\n AAAAAAAAAAAA %ld AAAAAAAAAAAAA\n%s & %s \n",chk,drframe_cfg,string_cfg_file);
 	int new_fd = single_pdc_node->sockfd;
     
-                FILE *faaaaf;
-		faaaaf = fopen("../pmu_send.cfg","w");
-		fprintf(faaaaf,"%s",ptr_temp);
-		fclose(faaaaf);
+                //FILE *faaaaf;
+		//faaaaf = fopen("../pmu_send.cfg","wb");
+		//fwrite(ptr_temp, sizeof(char), sizeof(ptr_temp),faaaaf);
+		//fprintf(faaaaf,"%s",ptr_temp);
+		//fclose(faaaaf);
     /* Send Configuration frame to PDC Device */
     pthread_mutex_lock(&mutex_pdc_object);
 
@@ -2220,8 +2221,8 @@ printf("\n AAAAAAAAAAAA %ld AAAAAAAAAAAAA\n%s & %s \n",chk,drframe_cfg,string_cf
         perror("sendto");
     }
 
-    single_pdc_node->STAT_change = 0;          //Whyyyyyyyyyyyyyyyyyyyyy
-    single_pdc_node->pmu_cfgsent = 1;
+    //single_pdc_node->STAT_change = 0;          //Whyyyyyyyyyyyyyyyyyyyyy
+    //single_pdc_node->pmu_cfgsent = 1;
 
     pthread_mutex_unlock(&mutex_pdc_object);     
 

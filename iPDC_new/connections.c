@@ -709,11 +709,21 @@ void PMU_process_TCP(unsigned char tcp_buffer[],int sockfd) {
 			free(cmdframe);
 		}
 	}else if(c == 0x06) { 	
-		printf("Kitti Monaeeeeeee!!!!!!!!!");
+		printf("Recieved DR Frame!!!!!!!!!\n");
+					unsigned char *ptr,length[2];
+					ptr = tcp_buffer;
+					ptr += 2;
+					copy_cbyc(length,ptr,2);
+					unsigned int flen = to_intconvertor(length);		
+		
 		FILE *faaf;
-		faaf = fopen("../pmu.cfg","w");
-		fprintf(faaf,"%s",tcp_buffer);
+		faaf = fopen("../pmu.cfg","wb");
+		char cooi[1000000];
+		copy_cbyc(cooi,tcp_buffer,flen);
+		fwrite(cooi,sizeof(char),flen,faaf);
+		//fprintf(faaf,"%s",tcp_buffer);
 		fclose(faaf);
+		
 
 	/*					// If DR .cfg file
 		// Added by Sancho 2020_09_10 
