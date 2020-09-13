@@ -44,7 +44,7 @@ int temp_pahsor_type[50], temp_analog_type[50];
 long int temp_PHUNIT_val[50], temp_ANUNIT_val[50];
 
 unsigned char DRSYNC_cfg[3];
-
+unsigned char DRSYNC_dat[3];
 
 //unsigned char drframe_cfg[1024];
 //unsigned char drframe_dat[2000000];

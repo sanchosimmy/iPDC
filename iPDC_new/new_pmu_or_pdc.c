@@ -361,7 +361,7 @@ void* connect_pmu_tcp(void *temp) {
 						frame_crc |= *(ptr + 1);
                                              
 						if(frame_crc != cal_crc) {
-                                                 // printf("\n Flen :  %ld Frpm file %ld   Computed %ld\n",flen,frame_crc,cal_crc);
+                                                 printf("\n Flen :  %ld Frpm file %ld   Computed %ld\n",flen,frame_crc,cal_crc);
 							continue;
 							}
 							
@@ -2064,13 +2064,14 @@ int recv_tcp(int tcp_sockfd, unsigned char *tcp_BUF)
 		}
 		//printf("BINGO - bytes_read = %i \n", bytes_read);
 		if (flag == 0)
-		{
+		{                                             //qwerty
 			flag = 1;
 			ptr = temp_tcp_BUF;
 			ptr += 2;
 			copy_cbyc(length,ptr,2);
 			flen = to_intconvertor(length);
-		//	printf("BINGO -  flen = %i \n", flen);
+			//printf("BINGO -  flen = %i \n", flen);
+			//if(flen==0) break;
 
 			tempLen = flen - bytes_read;
 			memcpy(tcp_BUF,temp_tcp_BUF,bytes_read*sizeof(unsigned char));
@@ -2083,7 +2084,7 @@ int recv_tcp(int tcp_sockfd, unsigned char *tcp_BUF)
 		tot_read += bytes_read;
 		if (tempLen <= 0)
 		{
-		//	printf("BINGOBINGOBINGOBINGOBINGOBINGO \n\n\n");
+		//printf("BINGOBINGOBINGOBINGOBINGOBINGO \n\n\n");
 			break;
 		}
 	}

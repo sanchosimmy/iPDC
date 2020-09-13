@@ -1589,7 +1589,7 @@ void* TCP_CONNECTIONS(void * temp_pdc)
                 {
                     printf("\nCommand Frame for Instantaneous Values request is received from PDC.\n"); 
                     sancho_main();
-                    tcp_send_dr_data(single_pdc_node);
+                    //tcp_send_dr_data(single_pdc_node);
                     printf("\nTest.\n"); 
                 }
 			} /* end of processing with received Command frame */
@@ -2157,25 +2157,43 @@ void tcp_send_dr_data(struct PDC_Details *single_pdc_node)
 {
 
 FILE *cfg_file;
-cfg_file = fopen("../share/pmu.cfg","r");
 fseek(cfg_file, 0, SEEK_END);
-long fsize = ftell(cfg_file );
+cfg_file = fopen("../share/pmu.cfg","r");
+long fsize = ftell(cfg_file);
 fseek(cfg_file, 0, SEEK_SET);  // same as rewind(f); 
-
 char *string_cfg_file = malloc(fsize + 1);
 fread(string_cfg_file, 1, fsize,cfg_file);
 string_cfg_file[fsize] = 0;
 fclose(cfg_file);
 
 
+
+cfg_file = fopen("../share/pmu.dat","r");
+FILE *dat_file;
+fseek(dat_file, 0, SEEK_END);
+long fsize1 = ftell(dat_file);
+fseek(dat_file, 0, SEEK_SET);  // same as rewind(f); 
+char *string_dat_file = malloc(fsize1 + 1);
+fread(string_dat_file, 1, fsize1,dat_file);
+string_dat_file[fsize1] = 0;
+fclose(dat_file);
+
+
 	long int sec,frac = 0;
-	unsigned char fsize_char[2],pmuid[2],soc[4],fracsec[4];
+	unsigned char fsize_char[2],fsize_char1[2],pmuid[2],soc[4],fracsec[4];
 	uint16_t chk;
-        char *drframe_cfg = malloc(fsize + 17);
-	memset(drframe_cfg,'\0',fsize+17);
+        char *drframe_cfg = malloc(fsize + 16);
+	memset(drframe_cfg,'\0',fsize+16);
 	memset(fsize_char,'\0',2);
+	
+	char *drframe_dat = malloc(fsize1 + 16);
+	memset(drframe_dat,'\0',fsize1+16);
+	memset(fsize_char1,'\0',2);
 
 	int_to_ascii_convertor(fsize+16,fsize_char);
+	int_to_ascii_convertor(fsize1+16,fsize_char1);	
+	
+	
 	int_to_ascii_convertor(df_pmu_id,pmuid);
 
 	sec = (long int)time (NULL);
@@ -2185,41 +2203,64 @@ fclose(cfg_file);
 	DRSYNC_cfg[0] = 0xaa;
 	DRSYNC_cfg[1] = 0x61;
 	DRSYNC_cfg[2] = '\0';
+	
+	DRSYNC_dat[0] = 0xaa;
+	DRSYNC_dat[1] = 0x71;
+	DRSYNC_dat[2] = '\0';
 
 	int index = 0;
           unsigned char * ptr_temp=drframe_cfg;
+          unsigned char * ptr_temp1=drframe_dat;
+          
 	byte_by_byte_copy(ptr_temp,DRSYNC_cfg,index,2); // SEND CFG
+	byte_by_byte_copy(ptr_temp1,DRSYNC_dat,index,2); 
 	index += 2;
 	byte_by_byte_copy(ptr_temp,fsize_char,index,2);
+	byte_by_byte_copy(ptr_temp1,fsize_char1,index,2);
 	index += 2;
 	byte_by_byte_copy(ptr_temp,pmuid,index,2);
+	byte_by_byte_copy(ptr_temp1,pmuid,index,2);
 	index += 2;
 	byte_by_byte_copy(ptr_temp,soc,index,4);
+	byte_by_byte_copy(ptr_temp1,soc,index,4);
 	index += 4;
 	byte_by_byte_copy(ptr_temp,fracsec,index,4);       //Reallyyy ??????????//
+	byte_by_byte_copy(ptr_temp1,fracsec,index,4);	
 	index += 4;
 	byte_by_byte_copy(ptr_temp,string_cfg_file,index,fsize);
+	byte_by_byte_copy(ptr_temp1,string_dat_file,index,fsize1);
+		
 	index =index+fsize;
 	chk = compute_CRC(ptr_temp,fsize+14);
 	drframe_cfg[index++] = (chk >> 8) & ~(~0<<8);  	/* CHKSUM high byte; */
 	drframe_cfg[index++] = (chk ) & ~(~0<<8);     	/* CHKSUM low byte;  */
-	drframe_cfg[index]='\0';
+	
+	index =index-fsize+fsize1-2;
+	chk = compute_CRC(ptr_temp1,fsize1+14);
+	drframe_dat[index++] = (chk >> 8) & ~(~0<<8);  	/* CHKSUM high byte; */
+	drframe_dat[index++] = (chk ) & ~(~0<<8);     	/* CHKSUM low byte;  */
+	
+	//drframe_cfg[index]='\0';
         
-printf("\n AAAAAAAAAAAA %ld AAAAAAAAAAAAA\n%s & %s \n",chk,drframe_cfg,string_cfg_file);
+//printf("\n AAAAAAAAAAAA %ld AAAAAAAAAAAAA\n%s & %s \n",chk,drframe_cfg,string_cfg_file);
 	int new_fd = single_pdc_node->sockfd;
     
-                //FILE *faaaaf;
+                //FILE *faaaaf;                       //qwerty
 		//faaaaf = fopen("../pmu_send.cfg","wb");
 		//fwrite(ptr_temp, sizeof(char), sizeof(ptr_temp),faaaaf);
 		//fprintf(faaaaf,"%s",ptr_temp);
 		//fclose(faaaaf);
     /* Send Configuration frame to PDC Device */
     pthread_mutex_lock(&mutex_pdc_object);
-
-    if (send(new_fd,ptr_temp,fsize+16, 0) == -1)
-    {
-        perror("sendto");
-    }
+   // cline, cfg_size
+    ssize_t check=send(new_fd,ptr_temp,fsize+16,0);
+    printf("\nFsize+16 :  %ld \t Ret val : %ld\n",fsize+16,check);
+    ssize_t check1=send(new_fd,ptr_temp1,fsize1+16,0);
+    printf("\nFsize+16 :  %ld \t Ret val : %ld\n",fsize1+16,check1);
+   //if (send(new_fd,ptr_temp,fsize+16,0) == -1)
+    //{
+    //    perror("sendto");
+    //}
 
     //single_pdc_node->STAT_change = 0;          //Whyyyyyyyyyyyyyyyyyyyyy
     //single_pdc_node->pmu_cfgsent = 1;
@@ -2230,7 +2271,8 @@ printf("\n AAAAAAAAAAAA %ld AAAAAAAAAAAAA\n%s & %s \n",chk,drframe_cfg,string_cf
     
     free(string_cfg_file);
     free(drframe_cfg);
-    
+    free(string_dat_file);
+    free(drframe_dat);    
     return;
 }
 
