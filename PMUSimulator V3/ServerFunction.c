@@ -1589,7 +1589,7 @@ void* TCP_CONNECTIONS(void * temp_pdc)
                 {
                     printf("\nCommand Frame for Instantaneous Values request is received from PDC.\n"); 
                     sancho_main();
-                    //tcp_send_dr_data(single_pdc_node);
+                    tcp_send_dr_data(single_pdc_node);
                     printf("\nTest.\n"); 
                 }
 			} /* end of processing with received Command frame */
@@ -2155,21 +2155,19 @@ void sendTCPCFGFrame (struct PDC_Details *single_pdc_node)
 /**************************************** End of File *******************************************************/
 void tcp_send_dr_data(struct PDC_Details *single_pdc_node)
 {
-
-FILE *cfg_file;
-fseek(cfg_file, 0, SEEK_END);
-cfg_file = fopen("../share/pmu.cfg","r");
-long fsize = ftell(cfg_file);
-fseek(cfg_file, 0, SEEK_SET);  // same as rewind(f); 
-char *string_cfg_file = malloc(fsize + 1);
-fread(string_cfg_file, 1, fsize,cfg_file);
-string_cfg_file[fsize] = 0;
-fclose(cfg_file);
-
+    FILE *cfg_file;
+    cfg_file = fopen("../share/pmu.cfg","r");
+    fseek(cfg_file, 0, SEEK_END);
+    long fsize = ftell(cfg_file );
+    fseek(cfg_file, 0, SEEK_SET);  // same as rewind(f); 
+    char *string_cfg_file = malloc(fsize + 1);
+    fread(string_cfg_file, 1, fsize,cfg_file);
+    string_cfg_file[fsize] = 0;
+    fclose(cfg_file);
 
 
-cfg_file = fopen("../share/pmu.dat","r");
 FILE *dat_file;
+cfg_file = fopen("../share/pmu.dat","r");
 fseek(dat_file, 0, SEEK_END);
 long fsize1 = ftell(dat_file);
 fseek(dat_file, 0, SEEK_SET);  // same as rewind(f); 
@@ -2182,6 +2180,7 @@ fclose(dat_file);
 	long int sec,frac = 0;
 	unsigned char fsize_char[2],fsize_char1[2],pmuid[2],soc[4],fracsec[4];
 	uint16_t chk;
+	
         char *drframe_cfg = malloc(fsize + 16);
 	memset(drframe_cfg,'\0',fsize+16);
 	memset(fsize_char,'\0',2);

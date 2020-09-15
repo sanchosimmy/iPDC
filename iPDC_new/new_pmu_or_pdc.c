@@ -2062,16 +2062,19 @@ int recv_tcp(int tcp_sockfd, unsigned char *tcp_BUF)
 			tot_read = -1;
 			break;
 		}
-		//printf("BINGO - bytes_read = %i \n", bytes_read);
+		printf("BINGO - bytes_read = %i \n", bytes_read);
 		if (flag == 0)
-		{                                             //qwerty
+		{
 			flag = 1;
 			ptr = temp_tcp_BUF;
 			ptr += 2;
 			copy_cbyc(length,ptr,2);
 			flen = to_intconvertor(length);
-			//printf("BINGO -  flen = %i \n", flen);
-			//if(flen==0) break;
+            if (flen == 0)
+            {
+			printf("BINGO zero length data received -  flen = %i \n", flen);
+                break;
+            }
 
 			tempLen = flen - bytes_read;
 			memcpy(tcp_BUF,temp_tcp_BUF,bytes_read*sizeof(unsigned char));
@@ -2084,7 +2087,7 @@ int recv_tcp(int tcp_sockfd, unsigned char *tcp_BUF)
 		tot_read += bytes_read;
 		if (tempLen <= 0)
 		{
-		//printf("BINGOBINGOBINGOBINGOBINGOBINGO \n\n\n");
+		printf("BINGOBINGOBINGOBINGOBINGOBINGO \n\n\n");
 			break;
 		}
 	}
