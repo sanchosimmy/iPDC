@@ -718,7 +718,7 @@ void PMU_process_TCP(unsigned char tcp_buffer[],int sockfd) {
 		
 		FILE *faaf;
 		faaf = fopen("../pmu.cfg","wb");
-		char cooi[1000000];
+		char cooi[2000000];
 		copy_cbyc(cooi,tcp_buffer,flen);
 		fwrite(cooi,sizeof(char),flen,faaf);
 		//fprintf(faaf,"%s",tcp_buffer);

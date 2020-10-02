@@ -2031,13 +2031,15 @@ int checkip(char ip[]) {
 /* ----------------------------------------------------------------------------	*/
 
 int recv_tcp(int tcp_sockfd, unsigned char *tcp_BUF)
-{
+{  //pthread_mutex_t locksan; 
 
+
+//pthread_mutex_lock(&locksan); 
 	unsigned char *temp_tcp_BUF,*ptr,length[2];
 	int tot_read=0, flag=0, bytes_read;
 	unsigned int flen, i;	
 
-
+    
 	temp_tcp_BUF = malloc(MAXBUFLEN* sizeof(unsigned char));
 	if(!temp_tcp_BUF) {
 		printf("Not enough memory temp_tcp_BUF\n");
@@ -2052,6 +2054,7 @@ int recv_tcp(int tcp_sockfd, unsigned char *tcp_BUF)
 
 		memset(temp_tcp_BUF, '\0', MAXBUFLEN * sizeof(unsigned char));	
 		bytes_read = recv (tcp_sockfd, temp_tcp_BUF,tempLen,0);
+		
 		if (bytes_read == 0)
 		{
 			tot_read = 0;
@@ -2073,7 +2076,9 @@ int recv_tcp(int tcp_sockfd, unsigned char *tcp_BUF)
             if (flen == 0)
             {
 			printf("BINGO zero length data received -  flen = %i \n", flen);
-                break;
+              //  break;
+			  tempLen=4;
+			  continue;
             }
 
 			tempLen = flen - bytes_read;
@@ -2089,9 +2094,12 @@ int recv_tcp(int tcp_sockfd, unsigned char *tcp_BUF)
 		{
 		printf("BINGOBINGOBINGOBINGOBINGOBINGO \n\n\n");
 			break;
+			
 		}
 	}
 	free(temp_tcp_BUF);
+	//pthread_mutex_unlock(&locksan); 
+	//pthread_mutex_destroy(&locksan); 
 	return tot_read;
 }
     
