@@ -2181,7 +2181,7 @@ void sendTCPCFGFrame (struct PDC_Details *single_pdc_node)
 /**************************************** End of File *******************************************************/
 void tcp_send_dr_data(struct PDC_Details *single_pdc_node)
 {   
-	
+	////////////////////////////////////////////////////	
     FILE *cfg_filea;
     cfg_filea = fopen("../share/pmu.cfg","r");
     fseek(cfg_filea, 0, SEEK_END);
@@ -2194,7 +2194,7 @@ void tcp_send_dr_data(struct PDC_Details *single_pdc_node)
 
 
     long int sec,frac = 0;
-    unsigned char fsizea_char[2],pmuid[2],soc[4],fracsec[4];
+    unsigned char fsizea_char[2],fcounta_char[2],pmuid[2],soc[4],fracsec[4];
     uint16_t chk;
     char *drframe_cfg = malloc(fsizea + 17);
     memset(drframe_cfg,'\0',fsizea+17);
@@ -2240,39 +2240,146 @@ void tcp_send_dr_data(struct PDC_Details *single_pdc_node)
  }
 	//pthread_mutex_unlock(&mutex_pdc_object);
 	printf("\nFsize+16 :  %ld \n",fsizea+16);  
-
+    
 
     printf("\nPMU DR frame [of %d Bytes] is sent to PDC.\n",fsizea+16);
 
     free(string_cfg_filea);
     free(drframe_cfg);
 
+///////////////////////////////////////////////////////////
 
-    //return;
 
-	/*////////////////////////////////////////
-					FILE *fp111 = fopen (filename1_delete,"rb");
-                    int new_fd = single_pdc_node_for_thread->sockfd;
-					if (fp111 == NULL)
-					{
-						printf("\nConfiguration Frame-1 is not present in PMU Setup File.\n");
-					}
-					else 
-					{ 
-						fclose(fp111);
+     long filecount=0,diff,diff64=65536-18;
+	 FILE *dat_filea;
+    dat_filea = fopen("../share/pmu.dat","r");
+    fseek(dat_filea, 0, SEEK_END);
+    fsizea = ftell(dat_filea );
+    fseek(dat_filea, 0, SEEK_SET);  // same as rewind(f); 
+    char *string_dat_filea = malloc(fsizea + 1);
+    fread(string_dat_filea, 1, fsizea,dat_filea);
+    string_dat_filea[fsizea] = 0;
+    fclose(dat_filea);
+    
+	//buffer_delete[64000];
+	
 
-						df_temp[0] = cline[2];
-						df_temp[1] = cline[3];
-						cfg_size = c2i(df_temp);
-pthread_mutex_lock(&mutex_pdc_object); 
-						if (send(new_fd,cline, cfg_size, 0)== -1)
-						{
-							perror("sendto");
-						}
-						pthread_mutex_unlock(&mutex_pdc_object); 
-						printf("\nPMU CFG-1 frame [of %d Bytes] is sent to PDC.\n", cfg_size);
-					} 
-///////////////////////////////////////// */ 
+    
+	DRSYNC_dat[0] = 0xaa;
+    DRSYNC_dat[1] = 0x71;
+    DRSYNC_dat[2] = '\0';
+
+ printf("\n New Fsize+18 :  %ld \n",fsizea+18);  
+
+ diff=fsizea-diff64*filecount;
+while(1)
+			{  filecount++;
+				if(diff<=0) break; 
+			   else if(diff<diff64)
+			   {
+                char *drframe_dat = malloc(diff+18+1);     // /change to Diff64
+                memset(drframe_dat,'\0',diff+18+1); //18 or 19 ?;
+
+                memset(fsizea_char,'\0',2);
+                int_to_ascii_convertor(diff+18,fsizea_char); //or diff64
+        
+                memset(fcounta_char,'\0',2);
+                int_to_ascii_convertor(filecount,fcounta_char); 
+    	
+
+
+                int indexa = 0;
+                unsigned char * ptr_temp=drframe_dat;
+                byte_by_byte_copy(ptr_temp,DRSYNC_dat,indexa,2); // SEND dat
+                indexa += 2;
+                byte_by_byte_copy(ptr_temp,fsizea_char,indexa,2);
+                indexa += 2;
+                byte_by_byte_copy(ptr_temp,pmuid,indexa,2);
+                indexa += 2;
+                byte_by_byte_copy(ptr_temp,soc,indexa,4);
+                indexa += 4;
+                byte_by_byte_copy(ptr_temp,fracsec,indexa,4);       //Reallyyy ??????????//
+                indexa += 4;
+                byte_by_byte_copy(ptr_temp,fcounta_char,indexa,2);
+                indexa += 2;
+                //byte_by_byte_copy(ptr_temp,string_dat_filea,indexa,fsizea);
+
+                for(int i1 = 0;i1<diff; i1++)       //change to diff64
+                ptr_temp[indexa+ i1] = string_dat_filea[i1+diff64*(filecount-1)];	
+
+
+                indexa =indexa+diff;    //change to diff64
+                chk = compute_CRC(ptr_temp,diff+16);//change to diff64    //Also 18-2=14
+                drframe_dat[indexa++] = (chk >> 8) & ~(~0<<8);  	// CHKSUM high byte; 
+                drframe_dat[indexa++] = (chk ) & ~(~0<<8);     	// CHKSUM low byte;  
+                // drframe_dat[index]='\0';  //Deleteddddddddddd
+
+                if (send(new_fd1,ptr_temp,diff+18,0) == -1)
+                                {
+                                perror("sendto");
+                                }
+                printf("\nPMU DR frame %d [of %d Bytes] is sent to PDC.\n",filecount,diff+18);
+				
+                free(drframe_dat);
+                
+                
+
+				   break;
+			   } 
+			   else
+			   {
+                char *drframe_dat = malloc(diff64+19);     // /change to Diff64
+                memset(drframe_dat,'\0',diff64+18+1); //18 or 19 ?;
+
+                memset(fsizea_char,'\0',2);
+                int_to_ascii_convertor(diff64+18,fsizea_char); //or diff64
+        
+                memset(fcounta_char,'\0',2);
+                int_to_ascii_convertor(filecount,fcounta_char); 
+    	
+
+
+                int indexa = 0;
+                unsigned char * ptr_temp=drframe_dat;
+                byte_by_byte_copy(ptr_temp,DRSYNC_dat,indexa,2); // SEND dat
+                indexa += 2;
+                byte_by_byte_copy(ptr_temp,fsizea_char,indexa,2);
+                indexa += 2;
+                byte_by_byte_copy(ptr_temp,pmuid,indexa,2);
+                indexa += 2;
+                byte_by_byte_copy(ptr_temp,soc,indexa,4);
+                indexa += 4;
+                byte_by_byte_copy(ptr_temp,fracsec,indexa,4);       //Reallyyy ??????????//
+                indexa += 4;
+                byte_by_byte_copy(ptr_temp,fcounta_char,indexa,2);
+                indexa += 2;
+                //byte_by_byte_copy(ptr_temp,string_dat_filea,indexa,fsizea);
+
+                for(int i1 = 0;i1<diff64; i1++)       //change to diff64
+                ptr_temp[indexa+ i1] = string_dat_filea[i1+diff64*(filecount-1)];	
+
+
+                indexa =indexa+diff64;    //change to diff64
+                chk = compute_CRC(ptr_temp,diff64+16);//change to diff64    //Also 18-2=14
+                drframe_dat[indexa++] = (chk >> 8) & ~(~0<<8);  	// CHKSUM high byte; 
+                drframe_dat[indexa++] = (chk ) & ~(~0<<8);     	// CHKSUM low byte;  
+                // drframe_dat[index]='\0';  //Deleteddddddddddd
+
+                if (send(new_fd1,ptr_temp,diff64+18,0) == -1)
+                                {
+                                perror("sendto");
+                                }
+                printf("\nPMU DR frame %d [of %d Bytes] is sent to PDC.\n",filecount,diff64+18);
+
+                free(drframe_dat);
+			   } 
+				diff=fsizea-diff64*filecount;
+			}	
+
+	
+
+free(string_dat_filea);
+
 }
 
 

@@ -641,12 +641,13 @@ void PMU_process_TCP(unsigned char tcp_buffer[],int sockfd) {
 
 
 	int stat_status;
-	unsigned int id;
-	unsigned char id_char[2];
+	unsigned int id,fileno;
+	unsigned char id_char[2],file_no[2];
 
 	id_char[0] = tcp_buffer[4];
 	id_char[1] = tcp_buffer[5];
 	id = to_intconvertor(id_char);
+
 
 	unsigned char c = tcp_buffer[1];
 	c <<= 1;
@@ -709,7 +710,7 @@ void PMU_process_TCP(unsigned char tcp_buffer[],int sockfd) {
 			free(cmdframe);
 		}
 	}else if(c == 0x06) { 	
-		printf("Recieved DR Frame!!!!!!!!!\n");
+		printf("Recieved DR_Cfg Frame!!!!!!!!!\n");
 					unsigned char *ptr,length[2];
 					ptr = tcp_buffer;
 					ptr += 2;
@@ -723,41 +724,32 @@ void PMU_process_TCP(unsigned char tcp_buffer[],int sockfd) {
 		fwrite(cooi,sizeof(char),flen,faaf);
 		//fprintf(faaf,"%s",tcp_buffer);
 		fclose(faaf);
-		
+	}
+	else if(c == 0x07) { 	
 
-	/*					// If DR .cfg file
-		// Added by Sancho 2020_09_10 
-		unsigned char *ptr,length[2];
-		unsigned int flen;	
-		uint16_t cfg_crc;
+    file_no[0] = tcp_buffer[14];       
+	file_no[1] = tcp_buffer[15];
+	fileno = to_intconvertor(file_no);
+			printf("Recieved DR_Data Frame %d!!!!!!!!!\n",fileno);
+		FILE *faaf;
+		if(fileno==0) faaf = fopen("../pmu.dat","wb");	
+		else faaf = fopen("../pmu.dat","ab");
 
-		ptr = tcp_buffer;
-		ptr += 2;
-		copy_cbyc(length,ptr,2);
-		flen = to_intconvertor(length);
-		ptr += 12;
-		cfg_crc = compute_CRC(ptr,flen-16);
-	//	printf("Bingo ---- Config CRC --- %d \n",cfg_crc);
+					unsigned char *ptr,length[2];
+					ptr = tcp_buffer;
+					ptr += 2;
+					copy_cbyc(length,ptr,2);
+					unsigned int flen = to_intconvertor(length);		
 
-		if (previous_crc == cfg_crc) {
-			return;  
-		} else
-		{
-			previous_crc = cfg_crc;
-			// Added by Gopal 2013_12_15 
-			printf("\nConfiguration frame received.\n");
-			cfgparser(tcp_buffer);
-			unsigned char *cmdframe = malloc(19);
-			cmdframe[18] = '\0';
-			create_command_frame(2,id,(char *)cmdframe);
-			printf("Return from create_command_frame().\n");
-
-			// Command frame sent to send the data frames 
-			if (send(sockfd,cmdframe,18, 0)== -1) 
-				perror("send");
-			free(cmdframe);
-		} */
-	}  else {	
+		char cooi[2000000];
+		copy_cbyc(cooi,tcp_buffer,flen);
+		fwrite(cooi,sizeof(char),flen,faaf);
+		//fprintf(faaf,"%s",tcp_buffer);
+		fclose(faaf);
+	}
+	  
+	
+	else {	
 
 		printf("\nErroneous frame\n");
 
