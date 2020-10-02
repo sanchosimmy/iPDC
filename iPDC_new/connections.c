@@ -749,6 +749,7 @@ void PMU_process_TCP(unsigned char tcp_buffer[],int sockfd) {
 		fwrite(ptr_temp1+16,sizeof(char),flen-18,faaf);
 		//fprintf(faaf,"%s",tcp_buffer);
 		fclose(faaf);
+		if(fileno==65535) printf("pmu.dat file recieved !!!!!\n");
 	}
 	  
 	
