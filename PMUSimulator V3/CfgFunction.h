@@ -89,7 +89,7 @@ void show_pmu_details (GtkWidget *widget, gpointer udata);
 int  create_cfg();
 
 
-int sancho_main();
+void sancho_main();
 bool is_empty();
 void delete_one();
 void delete_all();

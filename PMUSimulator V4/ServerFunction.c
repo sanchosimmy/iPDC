@@ -1602,7 +1602,7 @@ void* TCP_CONNECTIONS(void * temp_pdc)
 				else if((c[1] & 0x00) == 0x00 && (c[0] & 0x01) == 0x01)	/* Command frame for Instantaneous Values request from PDC */
                 {
                     printf("\nCommand Frame for Instantaneous Values request is received from PDC.\n"); 
-                    sancho_main();
+                    //sancho_main();
 					//pthread_mutex_lock(&mutex_pdc_object);
                     //tcp_send_dr_data(single_pdc_node);
                     filename1_delete=filename1;
@@ -1630,9 +1630,8 @@ void* TCP_CONNECTIONS(void * temp_pdc)
 
 void *send_dr_frame(struct PDC_Details *single_pdc_node_for_thread)
 {    
-					//sancho_main();
+		    sancho_main();
                     tcp_send_dr_data(single_pdc_node_for_thread);
- 
                     pthread_exit(NULL);;
 };
 /* ----------------------------------------------------------------------------	*/
@@ -2235,10 +2234,10 @@ void tcp_send_dr_data(struct PDC_Details *single_pdc_node)
 
     //pthread_mutex_lock(&mutex_pdc_object);                  // Reqd ?
     //ssize_t check=send(new_fd,ptr_temp,fsizea+16,0);
-   // if (send(new_fd1,ptr_temp,fsizea+16,0) == -1)
-  // {
-   //     perror("sendto");
-  // }
+  if (send(new_fd1,ptr_temp,fsizea+16,0) == -1)
+ {
+     perror("sendto");
+ }
 	//pthread_mutex_unlock(&mutex_pdc_object);
 	printf("\nFsize+16 :  %ld \n",fsizea+16);  
 

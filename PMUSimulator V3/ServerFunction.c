@@ -106,7 +106,7 @@ pthread_mutex_t mutex_pdc_object = PTHREAD_MUTEX_INITIALIZER;
 
 //Delete this
 int *index1;
-char *filename1_delete;
+
 
 /* ----------------------------------------------------------------------------	*/
 /* FUNCTION  get_header_frame():							               */
@@ -1603,14 +1603,78 @@ void* TCP_CONNECTIONS(void * temp_pdc)
                 {
                     printf("\nCommand Frame for Instantaneous Values request is received from PDC.\n"); 
                     sancho_main();
-					//pthread_mutex_lock(&mutex_pdc_object);
-                    //tcp_send_dr_data(single_pdc_node);
-                    filename1_delete=filename1;
+                   // tcp_send_dr_data(single_pdc_node_for_thread);
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+FILE *cfg_filea;
+    cfg_filea = fopen("../share/pmu.cfg","r");
+    fseek(cfg_filea, 0, SEEK_END);
+    long fsizea = ftell(cfg_filea );
+    fseek(cfg_filea, 0, SEEK_SET);  // same as rewind(f); 
+    char *string_cfg_filea = malloc(fsizea + 1);
+    fread(string_cfg_filea, 1, fsizea,cfg_filea);
+    string_cfg_filea[fsizea] = 0;
+    fclose(cfg_filea);
 
-                    pthread_create(&thread_id_xyz, NULL, send_dr_frame,(struct PDC_Details *)single_pdc_node); 
+
+    long int sec,frac = 0;
+    unsigned char fsizea_char[2],pmuid[2],soc[4],fracsec[4];
+    uint16_t chk;
+    char *drframe_cfg = malloc(fsizea + 17);
+    memset(drframe_cfg,'\0',fsizea+17);
+    memset(fsizea_char,'\0',2);
+    int_to_ascii_convertor(fsizea+16,fsizea_char);
+    int_to_ascii_convertor(df_pmu_id,pmuid);
+
+    sec = (long int)time (NULL);
+    long_int_to_ascii_convertor(sec,soc);
+    long_int_to_ascii_convertor(frac,fracsec);           //what to do with fracsec
+
+    DRSYNC_cfg[0] = 0xaa;
+    DRSYNC_cfg[1] = 0x61;
+    DRSYNC_cfg[2] = '\0';
+
+    int indexa = 0;
+    unsigned char * ptr_temp=drframe_cfg;
+    byte_by_byte_copy(ptr_temp,DRSYNC_cfg,indexa,2); // SEND CFG
+    indexa += 2;
+    byte_by_byte_copy(ptr_temp,fsizea_char,indexa,2);
+    indexa += 2;
+    byte_by_byte_copy(ptr_temp,pmuid,indexa,2);
+    indexa += 2;
+    byte_by_byte_copy(ptr_temp,soc,indexa,4);
+    indexa += 4;
+    byte_by_byte_copy(ptr_temp,fracsec,indexa,4);       //Reallyyy ??????????//
+    indexa += 4;
+    byte_by_byte_copy(ptr_temp,string_cfg_filea,indexa,fsizea);
+    indexa =indexa+fsizea;
+    chk = compute_CRC(ptr_temp,fsizea+14);
+    drframe_cfg[indexa++] = (chk >> 8) & ~(~0<<8);  	// CHKSUM high byte; 
+    drframe_cfg[indexa++] = (chk ) & ~(~0<<8);     	// CHKSUM low byte;  
+   // drframe_cfg[index]='\0';  //Deleteddddddddddd
+
+    printf("\n AAAAAAAAAAAA %ld AAAAAAAAAAAAA\n%s & %s \n",chk,drframe_cfg,string_cfg_filea);
+    int new_fd1 = single_pdc_node->sockfd;
+
+    //pthread_mutex_lock(&mutex_pdc_object);                  // Reqd ?
+    //ssize_t check=send(new_fd,ptr_temp,fsizea+16,0);
+  if (send(new_fd1,ptr_temp,fsizea+16,0) == -1)
+ {
+       perror("sendto");
+  }
+	//pthread_mutex_unlock(&mutex_pdc_object);
+	printf("\nFsize+16 :  %ld \n",fsizea+16);  
+
+
+    printf("\nPMU DR frame [of %d Bytes] is sent to PDC.\n",fsizea+16);
+
+    free(string_cfg_filea);
+    free(drframe_cfg);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+                    
 
                     
-                    //pthread_mutex_unlock(&mutex_pdc_object); 
+                   
                 }
 			} /* end of processing with received Command frame */
 
@@ -1628,13 +1692,6 @@ void* TCP_CONNECTIONS(void * temp_pdc)
 	pthread_exit(NULL);
 }
 
-void *send_dr_frame(struct PDC_Details *single_pdc_node_for_thread)
-{    
-					//sancho_main();
-                    tcp_send_dr_data(single_pdc_node_for_thread);
- 
-                    pthread_exit(NULL);;
-};
 /* ----------------------------------------------------------------------------	*/
 /* FUNCTION  remove_tcp_node(void * node);	     		                    */
 /* This function will remove the connection nodes from PDC linked list,         */
