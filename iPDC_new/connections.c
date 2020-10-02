@@ -720,8 +720,10 @@ void PMU_process_TCP(unsigned char tcp_buffer[],int sockfd) {
 		FILE *faaf;
 		faaf = fopen("../pmu.cfg","wb");
 		char cooi[2000000];
+		char *ptr_temp=&cooi;
 		copy_cbyc(cooi,tcp_buffer,flen);
-		fwrite(cooi,sizeof(char),flen,faaf);
+
+		fwrite(ptr_temp+14,sizeof(char),flen-16,faaf);
 		//fprintf(faaf,"%s",tcp_buffer);
 		fclose(faaf);
 	}
@@ -732,7 +734,7 @@ void PMU_process_TCP(unsigned char tcp_buffer[],int sockfd) {
 	fileno = to_intconvertor(file_no);
 			printf("Recieved DR_Data Frame %d!!!!!!!!!\n",fileno);
 		FILE *faaf;
-		if(fileno==0) faaf = fopen("../pmu.dat","wb");	
+		if(fileno==1) faaf = fopen("../pmu.dat","wb");	
 		else faaf = fopen("../pmu.dat","ab");
 
 					unsigned char *ptr,length[2];
@@ -741,9 +743,10 @@ void PMU_process_TCP(unsigned char tcp_buffer[],int sockfd) {
 					copy_cbyc(length,ptr,2);
 					unsigned int flen = to_intconvertor(length);		
 
-		char cooi[2000000];
-		copy_cbyc(cooi,tcp_buffer,flen);
-		fwrite(cooi,sizeof(char),flen,faaf);
+		char cooi1[65535];
+		copy_cbyc(cooi1,tcp_buffer,flen);
+				char *ptr_temp1=&cooi1;
+		fwrite(ptr_temp1+16,sizeof(char),flen-18,faaf);
 		//fprintf(faaf,"%s",tcp_buffer);
 		fclose(faaf);
 	}

@@ -2250,7 +2250,7 @@ void tcp_send_dr_data(struct PDC_Details *single_pdc_node)
 ///////////////////////////////////////////////////////////
 
 
-     long filecount=0,diff,diff64=65536-18;
+     long filecount=0,diff,diff64=64000-18;
 	 FILE *dat_filea;
     dat_filea = fopen("../share/pmu.dat","r");
     fseek(dat_filea, 0, SEEK_END);
@@ -2272,6 +2272,7 @@ void tcp_send_dr_data(struct PDC_Details *single_pdc_node)
  printf("\n New Fsize+18 :  %ld \n",fsizea+18);  
 
  diff=fsizea-diff64*filecount;
+ //if(diff>=0)                         //Assuming min file size is 64kb .Else will need to modify code
 while(1)
 			{  filecount++;
 				if(diff<=0) break; 
@@ -2284,7 +2285,7 @@ while(1)
                 int_to_ascii_convertor(diff+18,fsizea_char); //or diff64
         
                 memset(fcounta_char,'\0',2);
-                int_to_ascii_convertor(filecount,fcounta_char); 
+                int_to_ascii_convertor(65535,fcounta_char); 
     	
 
 
