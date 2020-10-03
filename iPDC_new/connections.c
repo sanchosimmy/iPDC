@@ -637,7 +637,7 @@ void PMU_process_UDP(unsigned char *udp_buffer,struct sockaddr_in PMU_addr,int s
 /* The received frames are from Lower Layer PMU/PDC on TCP.		 	*/
 /* ----------------------------------------------------------------------------	*/
 
-void PMU_process_TCP(unsigned char tcp_buffer[],int sockfd) {
+void PMU_process_TCP(unsigned char tcp_buffer[],int sockfd,int pmuid) {
 
 
 	int stat_status;
@@ -718,7 +718,18 @@ void PMU_process_TCP(unsigned char tcp_buffer[],int sockfd) {
 					unsigned int flen = to_intconvertor(length);		
 		
 		FILE *faaf;
-		faaf = fopen("../pmu.cfg","wb");
+		char pmuFilePath1[200];
+        char buff1[50];
+		memset(pmuFilePath1, '\0', 200);
+		strcpy(pmuFilePath1,"..");
+		strcat(pmuFilePath1, "/");
+		strcat(pmuFilePath1, "pmu_");
+		sprintf(buff1, "%d", pmuid);
+		strcat(pmuFilePath1, buff1);
+		strcat(pmuFilePath1, ".cfg");
+		pmuFilePath1[strlen(pmuFilePath1)] = '\0';
+
+		faaf = fopen(pmuFilePath1,"wb");
 		char cooi[2000000];
 		char *ptr_temp=&cooi;
 		copy_cbyc(cooi,tcp_buffer,flen);
@@ -734,8 +745,18 @@ void PMU_process_TCP(unsigned char tcp_buffer[],int sockfd) {
 	fileno = to_intconvertor(file_no);
 			printf("Recieved DR_Data Frame %d!!!!!!!!!\n",fileno);
 		FILE *faaf;
-		if(fileno==1) faaf = fopen("../pmu.dat","wb");	
-		else faaf = fopen("../pmu.dat","ab");
+		char pmuFilePath2[200];
+        char buff2[50];
+		memset(pmuFilePath2, '\0', 200);
+		strcpy(pmuFilePath2,"..");
+		strcat(pmuFilePath2, "/");
+		strcat(pmuFilePath2, "pmu_");
+		sprintf(buff2, "%d", pmuid);
+		strcat(pmuFilePath2, buff2);
+		strcat(pmuFilePath2, ".dat");
+		pmuFilePath2[strlen(pmuFilePath2)] = '\0';
+		if(fileno==1) faaf = fopen(pmuFilePath2,"wb");	
+		else faaf = fopen(pmuFilePath2,"ab");
 
 					unsigned char *ptr,length[2];
 					ptr = tcp_buffer;

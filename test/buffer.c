@@ -6,7 +6,6 @@
 #include <sys/time.h>
 #include <sys/resource.h>
 
-int j=0,k=0;
 pthread_t thread_id_xyz;
 pthread_attr_t tattr;
 
@@ -16,29 +15,22 @@ struct sched_param param;
 
 // A normal C function that is executed as a thread  
 // when its name is specified in pthread_create() 
-void *myThreadFun1(void *vargp) 
-{ 
-
-    while(j<100)
-    {
-    printf("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA %d \n",j); 
-    j++;}
-    return NULL; 
+void *myThreadFun1(int a) 
+{ int j,k=0;
+j=a;
+while(k<500)
+{
+printf("%d J in thread is %d \n",k,j);
+k++;}
 } 
 
 int main() 
-{ 
-pthread_attr_init (&tattr);
-pthread_attr_getschedparam (&tattr, &param);
-param.sched_priority =param.sched_priority+11;
-//pthread_attr_setschedparam (&tattr, &param);
-
-
-pthread_create(&thread_id_xyz, &tattr, myThreadFun1, NULL);
+{ int j=0;
+pthread_create(&thread_id_xyz,NULL, myThreadFun1,5);
 printf("After Thread\n");
-while(k<201)
-{    printf("___%d \n",k); 
-k++;} 
+while(j<201)
+{    printf("                                  j in main %d \n",j); 
+j++;} 
 pthread_join(thread_id_xyz, NULL); 
     exit(0); 
 }

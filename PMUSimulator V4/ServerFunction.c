@@ -2183,7 +2183,20 @@ void tcp_send_dr_data(struct PDC_Details *single_pdc_node)
 {   
 	////////////////////////////////////////////////////	
     FILE *cfg_filea;
-    cfg_filea = fopen("../share/pmu.cfg","r");
+
+		char pmuFilePath3[200];
+        char buff3[50];
+		memset(pmuFilePath3, '\0', 200);
+		strcpy(pmuFilePath3,"..");
+		strcat(pmuFilePath3, "/share/");
+		strcat(pmuFilePath3, "pmu_");
+		sprintf(buff3, "%d", df_pmu_id);
+		strcat(pmuFilePath3, buff3);
+		strcat(pmuFilePath3, ".cfg");
+		pmuFilePath3[strlen(pmuFilePath3)] = '\0';
+
+
+    cfg_filea = fopen(pmuFilePath3,"r");
     fseek(cfg_filea, 0, SEEK_END);
     long fsizea = ftell(cfg_filea );
     fseek(cfg_filea, 0, SEEK_SET);  // same as rewind(f); 
@@ -2252,7 +2265,19 @@ void tcp_send_dr_data(struct PDC_Details *single_pdc_node)
 
      long filecount=0,diff,diff64=64000-18;
 	 FILE *dat_filea;
-    dat_filea = fopen("../share/pmu.dat","r");
+
+	 		char pmuFilePath4[200];
+        char buff4[50];
+		memset(pmuFilePath4, '\0', 200);
+		strcpy(pmuFilePath4,"..");
+		strcat(pmuFilePath4, "/share/");
+		strcat(pmuFilePath4, "pmu_");
+		sprintf(buff4, "%d", df_pmu_id);
+		strcat(pmuFilePath4, buff4);
+		strcat(pmuFilePath4, ".dat");
+		pmuFilePath4[strlen(pmuFilePath4)] = '\0';
+
+    dat_filea = fopen(pmuFilePath4,"r");
     fseek(dat_filea, 0, SEEK_END);
     fsizea = ftell(dat_filea );
     fseek(dat_filea, 0, SEEK_SET);  // same as rewind(f); 

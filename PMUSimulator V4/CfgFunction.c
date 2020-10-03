@@ -1456,7 +1456,20 @@ void make_config()
 { 
     int flag_space=0;
     FILE *cfg_file;
-    cfg_file = fopen("../share/pmu.cfg","w");
+
+		char pmuFilePath1[200];
+        char buff1[50];
+		memset(pmuFilePath1, '\0', 200);
+		strcpy(pmuFilePath1,"..");
+		strcat(pmuFilePath1, "/share/");
+		strcat(pmuFilePath1, "pmu_");
+		sprintf(buff1, "%d", pmu_id);
+		strcat(pmuFilePath1, buff1);
+		strcat(pmuFilePath1, ".cfg");
+		pmuFilePath1[strlen(pmuFilePath1)] = '\0';
+
+
+    cfg_file = fopen(pmuFilePath1,"w");
     //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     //printf("\n length %d\n",strlen(cfg_info->cfg_STNname));
     for(int local_count=0;local_count<strlen(cfg_info->cfg_STNname);local_count++)
@@ -1602,7 +1615,19 @@ void write_data()
 {
     FILE *dat_file;
     long int sampleno=0;
-    dat_file = fopen("../share/pmu.dat","wb");
+
+		char pmuFilePath2[200];
+        char buff2[50];
+		memset(pmuFilePath2, '\0', 200);
+		strcpy(pmuFilePath2,"..");
+		strcat(pmuFilePath2, "/share/");
+		strcat(pmuFilePath2, "pmu_");
+		sprintf(buff2, "%d", pmu_id);
+		strcat(pmuFilePath2, buff2);
+		strcat(pmuFilePath2, ".dat");
+		pmuFilePath2[strlen(pmuFilePath2)] = '\0';
+
+    dat_file = fopen(pmuFilePath2,"wb");
     struct node *ptr = tail;
     if(tail != NULL) 
     {

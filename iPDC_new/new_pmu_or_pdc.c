@@ -377,7 +377,7 @@ void* connect_pmu_tcp(void *temp) {
 					 */
 					tcp_BUF[bytes_read] = '\0';
 					//printf("\n %s\n",tcp_BUF);
-					PMU_process_TCP(tcp_BUF,tcp_sockfd);
+					PMU_process_TCP(tcp_BUF,tcp_sockfd,temp_pmu->pmuid);
 				}  
 
 			} // while ends
