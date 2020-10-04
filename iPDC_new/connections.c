@@ -642,7 +642,7 @@ void PMU_process_TCP(unsigned char tcp_buffer[],int sockfd,int pmuid) {
 
 	int stat_status;
 	unsigned int id,fileno;
-	unsigned char id_char[2],file_no[2];
+	unsigned char id_char[2],file_no[2],soc_temp[4];;
 
 	id_char[0] = tcp_buffer[4];
 	id_char[1] = tcp_buffer[5];
@@ -710,22 +710,31 @@ void PMU_process_TCP(unsigned char tcp_buffer[],int sockfd,int pmuid) {
 			free(cmdframe);
 		}
 	}else if(c == 0x06) { 	
-		printf("Recieved DR_Cfg Frame!!!!!!!!!\n");
+		printf("Recieved DR_Cfg Frame!!!!!!!!!\n");           //qwerty
 					unsigned char *ptr,length[2];
 					ptr = tcp_buffer;
 					ptr += 2;
 					copy_cbyc(length,ptr,2);
-					unsigned int flen = to_intconvertor(length);		
+					unsigned int flen = to_intconvertor(length);
+
+                                      soc_temp[0] = tcp_buffer[6];       
+                                      soc_temp[1] = tcp_buffer[7];
+                                      soc_temp[2] = tcp_buffer[8];       
+                                      soc_temp[3] = tcp_buffer[9];
+                                      long soc_value=to_long_int_convertor(soc_temp);	//Not required : Deleteeeeeeee						
 		
 		FILE *faaf;
 		char pmuFilePath1[200];
-        char buff1[50];
+        char buff1[50],buff11[50];
 		memset(pmuFilePath1, '\0', 200);
 		strcpy(pmuFilePath1,"..");
 		strcat(pmuFilePath1, "/");
 		strcat(pmuFilePath1, "pmu_");
 		sprintf(buff1, "%d", pmuid);
 		strcat(pmuFilePath1, buff1);
+		strcat(pmuFilePath1, "_");
+		sprintf(buff11, "%ld", soc_value);
+		strcat(pmuFilePath1, buff11);
 		strcat(pmuFilePath1, ".cfg");
 		pmuFilePath1[strlen(pmuFilePath1)] = '\0';
 
@@ -740,19 +749,32 @@ void PMU_process_TCP(unsigned char tcp_buffer[],int sockfd,int pmuid) {
 	}
 	else if(c == 0x07) { 	
 
+		                              soc_temp[0] = tcp_buffer[6];       
+                                      soc_temp[1] = tcp_buffer[7];
+                                      soc_temp[2] = tcp_buffer[8];       
+                                      soc_temp[3] = tcp_buffer[9];
+									  soc_temp[4] = 0;
+                                      long soc_value=to_long_int_convertor(soc_temp);	
+
     file_no[0] = tcp_buffer[14];       
 	file_no[1] = tcp_buffer[15];
 	fileno = to_intconvertor(file_no);
 			printf("Recieved DR_Data Frame %d!!!!!!!!!\n",fileno);
 		FILE *faaf;
 		char pmuFilePath2[200];
-        char buff2[50];
+        char buff2[50],buff22[50];
 		memset(pmuFilePath2, '\0', 200);
 		strcpy(pmuFilePath2,"..");
 		strcat(pmuFilePath2, "/");
 		strcat(pmuFilePath2, "pmu_");
 		sprintf(buff2, "%d", pmuid);
 		strcat(pmuFilePath2, buff2);
+
+
+		strcat(pmuFilePath2, "_");
+		sprintf(buff22, "%ld", soc_value);
+		strcat(pmuFilePath2, buff22);
+
 		strcat(pmuFilePath2, ".dat");
 		pmuFilePath2[strlen(pmuFilePath2)] = '\0';
 		if(fileno==1) faaf = fopen(pmuFilePath2,"wb");	

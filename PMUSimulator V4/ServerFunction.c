@@ -77,7 +77,7 @@
 /* ---------------------------------------------------------------- */
 /*                         global variables                         */
 /* ---------------------------------------------------------------- */
-
+    long int cmd_frscsec_to_send,cmd_soc_to_send;
 
           pthread_t thread_id_xyz;
           pthread_attr_t tattr;
@@ -1409,7 +1409,7 @@ void* MUL_PMU()
 void* TCP_CONNECTIONS(void * temp_pdc)
 {
 	/* local variables */
-	unsigned char c[2], soc[5];
+	unsigned char c[2], soc[5],fracsec[5];
 	int n,sin_size,ind;
 	char tcp_command[19], filename1[200];
 	FILE *fp1;
@@ -1456,6 +1456,27 @@ void* TCP_CONNECTIONS(void * temp_pdc)
 			{	
                 copy_cbyc(soc, (unsigned char*) (&tcp_command[6]),4);
                 long int cmdSOC = c2li(soc);
+                cmd_soc_to_send=cmdSOC;
+				copy_cbyc(fracsec, (unsigned char*) (&tcp_command[10]),4);  //Added by sancho
+                long int cmdfracsec = c2li(soc);                         
+                cmd_frscsec_to_send=cmdfracsec;
+                //printf("\n$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n");   
+				//printf("\t SOC %d Fracsec %d \n",cmdSOC,cmdfracsec);
+                //printf("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n");
+
+				/*cmd_soc_to_send[0]=soc[0];
+				cmd_soc_to_send[1]=soc[1];
+				cmd_soc_to_send[2]=soc[2];
+				cmd_soc_to_send[3]=soc[3];
+				cmd_soc_to_send[4]=0;
+                
+				cmd_frscsec_to_send[0]=fracsec[0]; //So send soc and fracsec n DR Frames
+				cmd_frscsec_to_send[1]=fracsec[1];
+				cmd_frscsec_to_send[2]=fracsec[2];
+				cmd_frscsec_to_send[3]=fracsec[3];
+				cmd_frscsec_to_send[4]=0; */
+				
+
                 c[0] = tcp_command[14];
                 c[1] = tcp_command[15];
 
@@ -2215,9 +2236,13 @@ void tcp_send_dr_data(struct PDC_Details *single_pdc_node)
     int_to_ascii_convertor(fsizea+16,fsizea_char);
     int_to_ascii_convertor(df_pmu_id,pmuid);
 
-    sec = (long int)time (NULL);
-    long_int_to_ascii_convertor(sec,soc);
-    long_int_to_ascii_convertor(frac,fracsec);           //what to do with fracsec
+    //memset(soc,'\0',4);
+    //memset(fracsec,'\0',4);   //Requireddddddddddddddddd ? 
+	
+    sec = (long int)time (NULL); 
+    long_int_to_ascii_convertor(cmd_frscsec_to_send,soc);
+    long_int_to_ascii_convertor(cmd_soc_to_send,fracsec);       
+
 
     DRSYNC_cfg[0] = 0xaa;
     DRSYNC_cfg[1] = 0x61;
@@ -2233,7 +2258,7 @@ void tcp_send_dr_data(struct PDC_Details *single_pdc_node)
     indexa += 2;
     byte_by_byte_copy(ptr_temp,soc,indexa,4);
     indexa += 4;
-    byte_by_byte_copy(ptr_temp,fracsec,indexa,4);       //Reallyyy ??????????//
+    byte_by_byte_copy(ptr_temp,fracsec,indexa,4);       
     indexa += 4;
     byte_by_byte_copy(ptr_temp,string_cfg_filea,indexa,fsizea);
     indexa =indexa+fsizea;
@@ -2242,7 +2267,7 @@ void tcp_send_dr_data(struct PDC_Details *single_pdc_node)
     drframe_cfg[indexa++] = (chk ) & ~(~0<<8);     	// CHKSUM low byte;  
    // drframe_cfg[index]='\0';  //Deleteddddddddddd
 
-    printf("\n AAAAAAAAAAAA %ld AAAAAAAAAAAAA\n%s & %s \n",chk,drframe_cfg,string_cfg_filea);
+    //printf("\n AAAAAAAAAAAA %ld AAAAAAAAAAAAA\n%s & %s \n",chk,drframe_cfg,string_cfg_filea);
     int new_fd1 = single_pdc_node->sockfd;
 
     //pthread_mutex_lock(&mutex_pdc_object);                  // Reqd ?
