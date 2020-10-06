@@ -762,10 +762,10 @@ void PMU_process_TCP(unsigned char tcp_buffer[],int sockfd,int pmuid) {
 			printf("Recieved DR_Data Frame %d!!!!!!!!!\n",fileno);
 		FILE *faaf;
 		char pmuFilePath2[200];
-        char buff2[50],buff22[50];
+        char buff2[50],buff22[50],buff222[50];
 		memset(pmuFilePath2, '\0', 200);
 		strcpy(pmuFilePath2,"..");
-		strcat(pmuFilePath2, "/");
+		strcat(pmuFilePath2, "/iPDC/temp/");
 		strcat(pmuFilePath2, "pmu_");
 		sprintf(buff2, "%d", pmuid);
 		strcat(pmuFilePath2, buff2);
@@ -775,10 +775,13 @@ void PMU_process_TCP(unsigned char tcp_buffer[],int sockfd,int pmuid) {
 		sprintf(buff22, "%ld", soc_value);
 		strcat(pmuFilePath2, buff22);
 
+		strcat(pmuFilePath2, "_");
+		sprintf(buff222, "%ld", fileno);
+		strcat(pmuFilePath2, buff222);
+
 		strcat(pmuFilePath2, ".dat");
 		pmuFilePath2[strlen(pmuFilePath2)] = '\0';
-		if(fileno==1) faaf = fopen(pmuFilePath2,"wb");	
-		else faaf = fopen(pmuFilePath2,"ab");
+		faaf = fopen(pmuFilePath2,"wb");	
 
 					unsigned char *ptr,length[2];
 					ptr = tcp_buffer;
@@ -792,7 +795,76 @@ void PMU_process_TCP(unsigned char tcp_buffer[],int sockfd,int pmuid) {
 		fwrite(ptr_temp1+16,sizeof(char),flen-18,faaf);
 		//fprintf(faaf,"%s",tcp_buffer);
 		fclose(faaf);
-		if(fileno==65535) printf("pmu.dat file recieved !!!!!\n");
+		if(fileno==65535) 
+		{printf("pmu.dat file recieved !!!!!\n");
+		// File name of new file
+		char pmuFilePath5[200];
+        char buff5[50],buff55[50],buff555[50];
+		memset(pmuFilePath5, '\0', 200);
+		strcpy(pmuFilePath5,"..");
+		strcat(pmuFilePath5, "/");
+		strcat(pmuFilePath5, "pmu_");
+		sprintf(buff5, "%d", pmuid);
+		strcat(pmuFilePath5, buff5);
+
+
+		strcat(pmuFilePath5, "_");
+		sprintf(buff55, "%ld", soc_value);
+		strcat(pmuFilePath5, buff55);
+
+		//strcat(pmuFilePath5, "_");
+		//sprintf(buff555, "%ld", fileno);
+		//strcat(pmuFilePath5, buff555);
+
+		strcat(pmuFilePath5, ".dat");
+		pmuFilePath5[strlen(pmuFilePath5)] = '\0';
+		faaf = fopen(pmuFilePath5,"wb");
+        long int count=0;
+       while(count<50)
+	   		{count++;   if(count==50) count=65535;
+			     		char pmuFilePath6[200];
+			     		char buff6[60],buff66[60],buff666[60];
+			     		memset(pmuFilePath6, '\0', 200);
+			     		strcpy(pmuFilePath6,"..");
+			     		strcat(pmuFilePath6, "/iPDC/temp/");
+			     		strcat(pmuFilePath6, "pmu_");
+			     		sprintf(buff6, "%d", pmuid);
+			     		strcat(pmuFilePath6, buff6);
+
+
+			     		strcat(pmuFilePath6, "_");
+			     		sprintf(buff66, "%ld", soc_value);
+			     		strcat(pmuFilePath6, buff66);
+
+			     		strcat(pmuFilePath6, "_");
+			     		sprintf(buff666, "%ld", count);
+			     		strcat(pmuFilePath6, buff666);
+
+			     		strcat(pmuFilePath6, ".dat");
+			     		pmuFilePath6[strlen(pmuFilePath6)] = '\0';
+                        FILE *finaldr;
+						 finaldr = fopen(pmuFilePath6,"rb");
+			     		if(finaldr)
+						 {
+							     fseek(finaldr, 0, SEEK_END);
+							     long int fsizea = ftell(finaldr );
+							     fseek(finaldr, 0, SEEK_SET);  // same as rewind(f); 
+							     char *string_finaldr = malloc(fsizea + 1);
+							     fread(string_finaldr, 1, fsizea,finaldr);
+								 string_finaldr[fsizea] = 0;
+								 fwrite(string_finaldr, 1, fsizea,faaf);
+							     free(string_finaldr);
+							     fclose(finaldr);
+								 remove(pmuFilePath6);
+
+						 }
+
+	    	}
+
+		 fclose(faaf);
+		
+		
+		}
 	}
 	  
 	
