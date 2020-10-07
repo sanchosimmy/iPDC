@@ -2368,6 +2368,7 @@ while(1)
                 if (send(new_fd1,ptr_temp,diff+18,0) == -1)
                                 {
                                 perror("sendto");
+								usleep(10000); //Not required. Remove after testing
                                 }
                 printf("\nPMU DR frame %d [of %d Bytes] is sent to PDC.\n",filecount,diff+18);
 				
@@ -2415,6 +2416,9 @@ while(1)
                 drframe_dat[indexa++] = (chk >> 8) & ~(~0<<8);  	// CHKSUM high byte; 
                 drframe_dat[indexa++] = (chk ) & ~(~0<<8);     	// CHKSUM low byte;  
                 // drframe_dat[index]='\0';  //Deleteddddddddddd
+                 
+                
+                usleep(480000);//Time to ensure that all previous packets have een sent : 500ms
 
                 if (send(new_fd1,ptr_temp,diff64+18,0) == -1)
                                 {
