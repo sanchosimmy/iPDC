@@ -38,10 +38,10 @@
 #include <sys/shm.h>
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <sys/signal.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <netdb.h>
-#include <sys/signal.h>
 #include <unistd.h>
 #include <gtk/gtk.h>
 #include "function.h"
@@ -80,9 +80,12 @@
     long int cmd_frscsec_to_send,cmd_soc_to_send;
 
           pthread_t thread_id_xyz;
+		  pthread_t one_sec_wait;
           pthread_attr_t tattr;
           struct sched_param param;
 	//struct PDC_Details *single_pdc_node_for_thread;
+
+	int second_1_flag=0;
                     
 int df_pmu_id, df_fdf, df_af, df_pf, df_pn, df_phnmr, df_annmr, df_dgnmr;
 int df_data_frm_size = 0, old_data_rate = 0, cfg_size, hdr_size=0;
@@ -419,7 +422,7 @@ void frame_size()
 /* attributes.                          					               */
 /* ----------------------------------------------------------------------------	*/
 
-void generate_data_frame()
+void generate_data_frame(struct PDC_Details *temp_pdca)
 {
 	/* local variables */
 	int freqI, phasorI, analogI;
@@ -493,6 +496,16 @@ void generate_data_frame()
 		/* If not insert default STAT Word: 0000 */
 		data_frm[indx++] = 0x00;
 		data_frm[indx++] = 0x00;
+	
+
+      if(second_1_flag==1) 
+	{   //data_frm[14] = (data_frm[14])^0x08;
+		data_frm[indx-2] = 0x08;	
+        data_frm[indx-1] = 0x09;
+		//if(second_1_flag==0) pthread_create(&one_sec_wait, NULL, reset_dr_flag,(struct PDC_Details *)temp_pdca);
+		
+	}  
+
 	}
 
 	prev_soc = curnt_soc;
@@ -847,7 +860,13 @@ void generate_data_frame()
 	}
 
 } /* end of function generate_data_frame() */
-
+void *reset_dr_flag(struct PDC_Details *temp_pdc)
+{   sleep(1);
+     temp_pdc->STAT_change=0;
+    second_1_flag=0;
+    pthread_exit(NULL);
+	ShmPTR->cfg_bit_change_info =0;
+};
 
 /* ----------------------------------------------------------------------------	*/
 /* FUNCTION  void* SEND_DATA       	               					*/
@@ -902,7 +921,7 @@ void* SEND_DATA()
         	}
 
 		/* Call the function generate_data_frame() to create a fresh new Data Frame */
-		generate_data_frame();
+		generate_data_frame(PDCfirst);
 
 		clock_nanosleep(CLOCK_REALTIME, TIMER_ABSTIME, cal_timeSpec, cal_timeSpec1);
 
@@ -2139,9 +2158,11 @@ void  SIGUSR2_handler(int sig)
                 printf("STAT - Data Sorting!\n");
             }
             else if(ShmPTR->cfg_bit_change_info == 5)	/* for PMU trigger bit */
-            {
+            {   second_1_flag=1;
                 temp_pdc->STAT_change = 5;
+				pthread_create(&one_sec_wait, NULL, reset_dr_flag,(struct PDC_Details *)temp_pdc);
                 printf("STAT - PMU Trigger!\n");
+				
             }
 
             temp_pdc = temp_pdc->next;
@@ -2368,7 +2389,6 @@ while(1)
                 if (send(new_fd1,ptr_temp,diff+18,0) == -1)
                                 {
                                 perror("sendto");
-								usleep(10000); //Not required. Remove after testing
                                 }
                 printf("\nPMU DR frame %d [of %d Bytes] is sent to PDC.\n",filecount,diff+18);
 				
@@ -2416,9 +2436,6 @@ while(1)
                 drframe_dat[indexa++] = (chk >> 8) & ~(~0<<8);  	// CHKSUM high byte; 
                 drframe_dat[indexa++] = (chk ) & ~(~0<<8);     	// CHKSUM low byte;  
                 // drframe_dat[index]='\0';  //Deleteddddddddddd
-                 
-                
-                usleep(480000);//Time to ensure that all previous packets have een sent : 500ms
 
                 if (send(new_fd1,ptr_temp,diff64+18,0) == -1)
                                 {

@@ -1,0 +1,7 @@
+[H[2J[3J
+(iPDC:8531): GLib-GObject-WARNING **: 05:13:54.104: invalid (NULL) pointer instance
+
+(iPDC:8531): GLib-GObject-CRITICAL **: 05:13:54.104: g_signal_connect_data: assertion 'G_TYPE_CHECK_INSTANCE (instance)' failed
+
+iPDC Closing Now.
+
