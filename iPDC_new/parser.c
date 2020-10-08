@@ -1274,7 +1274,7 @@ int dataparser(unsigned char data[]) {
 } 
 void *wait_30_sec()
 {    
-		    sleep(5);    //make 30
+		    sleep(30);    //make 30
 			sec_30_flag=0;
             pthread_exit(NULL);
 };
