@@ -1348,7 +1348,7 @@ int check_statword(unsigned char stat[]) {
 		ret = 12;
 		return ret;
 
-	} else if ((stat[0] & 0x08) == 0x08) {	// Bit-11
+	} else if ((stat[0] & 0x08) == 0x08 && ((stat[1] & 0x09) == 0x09)) {	// Bit-11
 
 //		printf("PMU Trigger detected!\n");
 		ret = 11;

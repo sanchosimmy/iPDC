@@ -1370,7 +1370,7 @@ void* UDP_PMU()
                 else if((c[1] & 0x00) == 0x00 && (c[0] & 0x01) == 0x01)	 /* Command frame for Instantaneous Values request from PDC */
                 {
                     printf("\nCommand Frame for Instantaneous Values request is received from PDC.\n"); 
-                    //sancho_main();
+                    //create_fifo_buffer();
                     //udp_send_dr_data(temp_pdc);
                 }
 
@@ -1642,7 +1642,7 @@ void* TCP_CONNECTIONS(void * temp_pdc)
 				else if((c[1] & 0x00) == 0x00 && (c[0] & 0x01) == 0x01)	/* Command frame for Instantaneous Values request from PDC */
                 {
                     printf("\nCommand Frame for Instantaneous Values request is received from PDC.\n"); 
-                    //sancho_main();
+                    //create_fifo_buffer();
 					//pthread_mutex_lock(&mutex_pdc_object);
                     //tcp_send_dr_data(single_pdc_node);
                     filename1_delete=filename1;
@@ -1670,7 +1670,7 @@ void* TCP_CONNECTIONS(void * temp_pdc)
 
 void *send_dr_frame(struct PDC_Details *single_pdc_node_for_thread)
 {    
-		    sancho_main();
+		    create_fifo_buffer();
                     tcp_send_dr_data(single_pdc_node_for_thread);
                     pthread_exit(NULL);;
 };

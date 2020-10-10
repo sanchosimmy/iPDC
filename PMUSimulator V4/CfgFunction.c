@@ -1120,7 +1120,7 @@ void show_pmu_details (GtkWidget *widget, gpointer udata)
 
 
 //Main program ####################################################    Main program
-int sancho_main() 
+int create_fifo_buffer() 
 {
     char temp_val[1024];
     lines=50000;
