@@ -2298,11 +2298,11 @@ void tcp_send_dr_data(struct PDC_Details *single_pdc_node)
      perror("sendto");
  }
 	//pthread_mutex_unlock(&mutex_pdc_object);
-	printf("\nFsize+16 :  %ld \n",fsizea+16);  
+	//printf("\nFsize+16 :  %ld \n",fsizea+16);  
     
 
-    printf("\nPMU DR frame [of %d Bytes] is sent to PDC.\n",fsizea+16);
-
+    //printf("\nPMU DR frame [of %d Bytes] is sent to PDC.\n",fsizea+16);
+    printf("\n.cfg of DR frame [of %d Bytes] sent to PDC\n",fsizea+16);
     free(string_cfg_filea);
     free(drframe_cfg);
 
@@ -2340,7 +2340,7 @@ void tcp_send_dr_data(struct PDC_Details *single_pdc_node)
     DRSYNC_dat[1] = 0x71;
     DRSYNC_dat[2] = '\0';
 
- printf("\n New Fsize+18 :  %ld \n",fsizea+18);  
+ //printf("\n .dat file created : Size %ld \n",fsizea+18);  
 
  diff=fsizea-diff64*filecount;
  //if(diff>=0)                         //Assuming min file size is 64kb .Else will need to modify code
@@ -2390,7 +2390,7 @@ while(1)
                                 {
                                 perror("sendto");
                                 }
-                printf("\nPMU DR frame %d [of %d Bytes] is sent to PDC.\n",filecount,diff+18);
+                //printf("\nPMU DR frame %d [of %d Bytes] is sent to PDC.\n",filecount,diff+18);
 				
                 free(drframe_dat);
                 
@@ -2441,7 +2441,7 @@ while(1)
                                 {
                                 perror("sendto");
                                 }
-                printf("\nPMU DR frame %d [of %d Bytes] is sent to PDC.\n",filecount,diff64+18);
+                //printf("\nPMU DR frame %d [of %d Bytes] is sent to PDC.\n",filecount,diff64+18);
 
                 free(drframe_dat);
 			   } 
@@ -2449,7 +2449,7 @@ while(1)
 			}	
 
 	
-
+printf("\n.dat of DR frame [of %d Bytes] sent to PDC\n",fsizea+18);
 free(string_dat_filea);
 
 }
