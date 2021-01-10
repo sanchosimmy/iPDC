@@ -709,8 +709,8 @@ void PMU_process_TCP(unsigned char tcp_buffer[],int sockfd,int pmuid) {
 				perror("send");
 			free(cmdframe);
 		}
-	}else if(c == 0x06) { 	
-		printf("Recieved DR_Cfg Frame!!!!!!!!!\n");           //qwerty
+	}else if(c == 0x06) { 	//DR_cfg frame recieved
+		printf("Recieved DR_Cfg Frame!!!!!!!!!\n");          
 					unsigned char *ptr,length[2];
 					ptr = tcp_buffer;
 					ptr += 2;
@@ -723,9 +723,11 @@ void PMU_process_TCP(unsigned char tcp_buffer[],int sockfd,int pmuid) {
                                       soc_temp[3] = tcp_buffer[9];
                                       long soc_value=to_long_int_convertor(soc_temp);	//Not required : Deleteeeeeeee						
 		
+//Save config file with id,soc
+
 		FILE *faaf;
 		char pmuFilePath1[200];
-        char buff1[50],buff11[50];
+               char buff1[50],buff11[50];
 		memset(pmuFilePath1, '\0', 200);
 		strcpy(pmuFilePath1,"..");
 		strcat(pmuFilePath1, "/");
@@ -743,26 +745,28 @@ void PMU_process_TCP(unsigned char tcp_buffer[],int sockfd,int pmuid) {
 		char *ptr_temp=&cooi;
 		copy_cbyc(cooi,tcp_buffer,flen);
 
-		fwrite(ptr_temp+14,sizeof(char),flen-16,faaf);
+		fwrite(ptr_temp+14,sizeof(char),flen-16,faaf); //Save the file with id,soc
 		//fprintf(faaf,"%s",tcp_buffer);
 		fclose(faaf);
 	}
-	else if(c == 0x07) { 	
-
+	else if(c == 0x07) { //DR_Dat frame recieved	
+                  printf("Recieved DR_Dat Frame!!!!!!!!!\n");  
 		                              soc_temp[0] = tcp_buffer[6];       
                                       soc_temp[1] = tcp_buffer[7];
                                       soc_temp[2] = tcp_buffer[8];       
                                       soc_temp[3] = tcp_buffer[9];
 									  soc_temp[4] = 0;
                                       long soc_value=to_long_int_convertor(soc_temp);	
+        //FIles from each pmu has to be identified.And file no
+        //Files are sent in parts
 
-    file_no[0] = tcp_buffer[14];       
+       file_no[0] = tcp_buffer[14];       
 	file_no[1] = tcp_buffer[15];
 	fileno = to_intconvertor(file_no);
 			printf("Recieved DR_Data Frame %d!!!!!!!!!\n",fileno);
 		FILE *faaf;
 		char pmuFilePath2[200];
-        char buff2[50],buff22[50],buff222[50];
+               char buff2[50],buff22[50],buff222[50];
 		memset(pmuFilePath2, '\0', 200);
 		strcpy(pmuFilePath2,"..");
 		strcat(pmuFilePath2, "/iPDC/temp/");
@@ -792,14 +796,14 @@ void PMU_process_TCP(unsigned char tcp_buffer[],int sockfd,int pmuid) {
 		char cooi1[65535];
 		copy_cbyc(cooi1,tcp_buffer,flen);
 				char *ptr_temp1=&cooi1;
-		fwrite(ptr_temp1+16,sizeof(char),flen-18,faaf);
+		fwrite(ptr_temp1+16,sizeof(char),flen-18,faaf);  //Save the file with id,soc
 		//fprintf(faaf,"%s",tcp_buffer);
 		fclose(faaf);
-		if(fileno==65535) 
+		if(fileno==65535)               //If this is the last part , Combine files
 		{printf("pmu.dat file recieved !!!!!\n");
 		// File name of new file
 		char pmuFilePath5[200];
-        char buff5[50],buff55[50],buff555[50];
+               char buff5[50],buff55[50],buff555[50];
 		memset(pmuFilePath5, '\0', 200);
 		strcpy(pmuFilePath5,"..");
 		strcat(pmuFilePath5, "/");
@@ -855,7 +859,7 @@ void PMU_process_TCP(unsigned char tcp_buffer[],int sockfd,int pmuid) {
 								 fwrite(string_finaldr, 1, fsizea,faaf);
 							     free(string_finaldr);
 							     fclose(finaldr);
-								 remove(pmuFilePath6);
+								 remove(pmuFilePath6); //Delete individual files
 
 						 }
 
