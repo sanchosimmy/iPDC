@@ -43,7 +43,9 @@
 /*   7. int c2i (unsigned char temp_2[])		 			               */
 /*   8. long int c2li (unsigned char temp_3[])				               */
 /*   9. uint16_t compute_CRC(unsigned char *message,char length)		          */
-/*   10.void sigchld_handler(int s)			 			             
+/*   10.void sigchld_handler(int s)		
+//Following functions have been added
+	 			             
 unsigned int to_intconvertor(unsigned char array[]);
 void long_int_to_ascii_convertor(unsigned long int n,unsigned char hex[]);
 void int_to_ascii_convertor(unsigned int n,unsigned char hex[]) ;

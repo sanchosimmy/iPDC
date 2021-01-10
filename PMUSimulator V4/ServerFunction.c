@@ -68,10 +68,9 @@
 /*  10.void  SIGUSR1_handler(int);          */
 /*  11.void  SIGUSR2_handler(int);          */
 /*  12.void* SEND_DATA();                   */
-/*                                           */
+/*  13.void udp_send_dr_data();      //Not used                                      */
 /* ----------------------------------------- */
 
-//void udp_send_dr_data();
 
 
 /* ---------------------------------------------------------------- */
@@ -79,13 +78,12 @@
 /* ---------------------------------------------------------------- */
     long int cmd_frscsec_to_send,cmd_soc_to_send;
 
-          pthread_t thread_id_xyz;
-		  pthread_t one_sec_wait;
-          pthread_attr_t tattr;
-          struct sched_param param;
-	//struct PDC_Details *single_pdc_node_for_thread;
-
-	int second_1_flag=0;
+    pthread_t thread_id_xyz;
+    pthread_t one_sec_wait;
+    pthread_attr_t tattr;
+    struct sched_param param;
+    //struct PDC_Details *single_pdc_node_for_thread;
+    int second_1_flag=0;
                     
 int df_pmu_id, df_fdf, df_af, df_pf, df_pn, df_phnmr, df_annmr, df_dgnmr;
 int df_data_frm_size = 0, old_data_rate = 0, cfg_size, hdr_size=0;
@@ -498,11 +496,11 @@ void generate_data_frame(struct PDC_Details *temp_pdca)
 		data_frm[indx++] = 0x00;
 	
 
-      if(second_1_flag==1) 
+      if(second_1_flag==1)  //Set Bits for 1 Second
 	{   //data_frm[14] = (data_frm[14])^0x08;
-		data_frm[indx-2] = 0x08;	
-        data_frm[indx-1] = 0x09;
-		//if(second_1_flag==0) pthread_create(&one_sec_wait, NULL, reset_dr_flag,(struct PDC_Details *)temp_pdca);
+	    data_frm[indx-2] = 0x08;	
+            data_frm[indx-1] = 0x09;
+	    //if(second_1_flag==0) pthread_create(&one_sec_wait, NULL, reset_dr_flag,(struct PDC_Details *)temp_pdca);
 		
 	}  
 
@@ -860,7 +858,7 @@ void generate_data_frame(struct PDC_Details *temp_pdca)
 	}
 
 } /* end of function generate_data_frame() */
-void *reset_dr_flag(struct PDC_Details *temp_pdc)
+void *reset_dr_flag(struct PDC_Details *temp_pdc) // After 1 Second
 {   sleep(1);
      temp_pdc->STAT_change=0;
     second_1_flag=0;
@@ -1371,7 +1369,7 @@ void* UDP_PMU()
                 {
                     printf("\nCommand Frame for Instantaneous Values request is received from PDC.\n"); 
                     //create_fifo_buffer();
-                    //udp_send_dr_data(temp_pdc);
+                    //udp_send_dr_data(temp_pdc); // We have not implemented DR frame in UDP
                 }
 
 			} /* end of processing with received Command frame */
@@ -1476,25 +1474,10 @@ void* TCP_CONNECTIONS(void * temp_pdc)
                 copy_cbyc(soc, (unsigned char*) (&tcp_command[6]),4);
                 long int cmdSOC = c2li(soc);
                 cmd_soc_to_send=cmdSOC;
-				copy_cbyc(fracsec, (unsigned char*) (&tcp_command[10]),4);  //Added by sancho
+		 copy_cbyc(fracsec, (unsigned char*) (&tcp_command[10]),4);  //Added by sancho
                 long int cmdfracsec = c2li(soc);                         
                 cmd_frscsec_to_send=cmdfracsec;
-                //printf("\n$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n");   
-				//printf("\t SOC %d Fracsec %d \n",cmdSOC,cmdfracsec);
-                //printf("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n");
 
-				/*cmd_soc_to_send[0]=soc[0];
-				cmd_soc_to_send[1]=soc[1];
-				cmd_soc_to_send[2]=soc[2];
-				cmd_soc_to_send[3]=soc[3];
-				cmd_soc_to_send[4]=0;
-                
-				cmd_frscsec_to_send[0]=fracsec[0]; //So send soc and fracsec n DR Frames
-				cmd_frscsec_to_send[1]=fracsec[1];
-				cmd_frscsec_to_send[2]=fracsec[2];
-				cmd_frscsec_to_send[3]=fracsec[3];
-				cmd_frscsec_to_send[4]=0; */
-				
 
                 c[0] = tcp_command[14];
                 c[1] = tcp_command[15];
@@ -1642,15 +1625,13 @@ void* TCP_CONNECTIONS(void * temp_pdc)
 				else if((c[1] & 0x00) == 0x00 && (c[0] & 0x01) == 0x01)	/* Command frame for Instantaneous Values request from PDC */
                 {
                     printf("\nCommand Frame for Instantaneous Values request is received from PDC.\n"); 
-                    //create_fifo_buffer();
-					//pthread_mutex_lock(&mutex_pdc_object);
-                    //tcp_send_dr_data(single_pdc_node);
+
                     filename1_delete=filename1;
 
                     pthread_create(&thread_id_xyz, NULL, send_dr_frame,(struct PDC_Details *)single_pdc_node); 
 
                     
-                    //pthread_mutex_unlock(&mutex_pdc_object); 
+
                 }
 			} /* end of processing with received Command frame */
 
@@ -2160,7 +2141,7 @@ void  SIGUSR2_handler(int sig)
             else if(ShmPTR->cfg_bit_change_info == 5)	/* for PMU trigger bit */
             {   second_1_flag=1;
                 temp_pdc->STAT_change = 5;
-				pthread_create(&one_sec_wait, NULL, reset_dr_flag,(struct PDC_Details *)temp_pdc);
+		pthread_create(&one_sec_wait, NULL, reset_dr_flag,(struct PDC_Details *)temp_pdc);
                 printf("STAT - PMU Trigger!\n");
 				
             }
@@ -2223,11 +2204,14 @@ void sendTCPCFGFrame (struct PDC_Details *single_pdc_node)
 /**************************************** End of File *******************************************************/
 void tcp_send_dr_data(struct PDC_Details *single_pdc_node)
 {   
-	////////////////////////////////////////////////////	
+
+////////////////////////////////////////
+//Snding Config Frame///////////////////
+////////////////////////////////////////
     FILE *cfg_filea;
 
 		char pmuFilePath3[200];
-        char buff3[50];
+                char buff3[50];
 		memset(pmuFilePath3, '\0', 200);
 		strcpy(pmuFilePath3,"..");
 		strcat(pmuFilePath3, "/share/");
@@ -2237,6 +2221,8 @@ void tcp_send_dr_data(struct PDC_Details *single_pdc_node)
 		strcat(pmuFilePath3, ".cfg");
 		pmuFilePath3[strlen(pmuFilePath3)] = '\0';
 
+//Copy Config file created to temp buffer.
+//Find the length of the file
 
     cfg_filea = fopen(pmuFilePath3,"r");
     fseek(cfg_filea, 0, SEEK_END);
@@ -2268,7 +2254,8 @@ void tcp_send_dr_data(struct PDC_Details *single_pdc_node)
     DRSYNC_cfg[0] = 0xaa;
     DRSYNC_cfg[1] = 0x61;
     DRSYNC_cfg[2] = '\0';
-
+    
+  // Creating cgf frame
     int indexa = 0;
     unsigned char * ptr_temp=drframe_cfg;
     byte_by_byte_copy(ptr_temp,DRSYNC_cfg,indexa,2); // SEND CFG
@@ -2286,34 +2273,30 @@ void tcp_send_dr_data(struct PDC_Details *single_pdc_node)
     chk = compute_CRC(ptr_temp,fsizea+14);
     drframe_cfg[indexa++] = (chk >> 8) & ~(~0<<8);  	// CHKSUM high byte; 
     drframe_cfg[indexa++] = (chk ) & ~(~0<<8);     	// CHKSUM low byte;  
-   // drframe_cfg[index]='\0';  //Deleteddddddddddd
+
 
     //printf("\n AAAAAAAAAAAA %ld AAAAAAAAAAAAA\n%s & %s \n",chk,drframe_cfg,string_cfg_filea);
     int new_fd1 = single_pdc_node->sockfd;
 
-    //pthread_mutex_lock(&mutex_pdc_object);                  // Reqd ?
-    //ssize_t check=send(new_fd,ptr_temp,fsizea+16,0);
+
   if (send(new_fd1,ptr_temp,fsizea+16,0) == -1)
  {
      perror("sendto");
  }
-	//pthread_mutex_unlock(&mutex_pdc_object);
-	//printf("\nFsize+16 :  %ld \n",fsizea+16);  
-    
 
-    //printf("\nPMU DR frame [of %d Bytes] is sent to PDC.\n",fsizea+16);
     printf("\n.cfg of DR frame [of %d Bytes] sent to PDC\n",fsizea+16);
     free(string_cfg_filea);
     free(drframe_cfg);
-
-///////////////////////////////////////////////////////////
+////////////////////////////////////////
+//Snding Data Frame/////////////////////
+////////////////////////////////////////
 
 
      long filecount=0,diff,diff64=64000-18;
 	 FILE *dat_filea;
 
-	 		char pmuFilePath4[200];
-        char buff4[50];
+	 	char pmuFilePath4[200];
+                char buff4[50];
 		memset(pmuFilePath4, '\0', 200);
 		strcpy(pmuFilePath4,"..");
 		strcat(pmuFilePath4, "/share/");
@@ -2331,24 +2314,24 @@ void tcp_send_dr_data(struct PDC_Details *single_pdc_node)
     fread(string_dat_filea, 1, fsizea,dat_filea);
     string_dat_filea[fsizea] = 0;
     fclose(dat_filea);
-    
-	//buffer_delete[64000];
-	
+
 
     
-	DRSYNC_dat[0] = 0xaa;
+    DRSYNC_dat[0] = 0xaa;
     DRSYNC_dat[1] = 0x71;
     DRSYNC_dat[2] = '\0';
 
  //printf("\n .dat file created : Size %ld \n",fsizea+18);  
 
+ //Splitting file into many parts
+
  diff=fsizea-diff64*filecount;
  //if(diff>=0)                         //Assuming min file size is 64kb .Else will need to modify code
 while(1)
-			{  filecount++;
-				if(diff<=0) break; 
-			   else if(diff<diff64)
-			   {
+	{  filecount++;
+	if(diff<=0) break; 
+	else if(diff<diff64)    //Last part
+		{
                 char *drframe_dat = malloc(diff+18+1);     // /change to Diff64
                 memset(drframe_dat,'\0',diff+18+1); //18 or 19 ?;
 
@@ -2396,10 +2379,10 @@ while(1)
                 
                 
 
-				   break;
-			   } 
-			   else
-			   {
+		break;
+	} 
+	else
+		{ //Not last part of the file
                 char *drframe_dat = malloc(diff64+19);     // /change to Diff64
                 memset(drframe_dat,'\0',diff64+18+1); //18 or 19 ?;
 
@@ -2454,13 +2437,7 @@ free(string_dat_filea);
 
 }
 
-
-
-
-
-
-
-
+//UDP not used
 
 void udp_send_dr_data(struct PDC_Details *temp_pdc)
 { /*
