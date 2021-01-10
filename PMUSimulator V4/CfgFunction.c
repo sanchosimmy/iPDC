@@ -24,6 +24,7 @@
  *		Nitesh Pandit <panditnitesh@gmail.com>
  *		Kedar V. Khandeparkar <kedar.khandeparkar@gmail.com>			
  *
+ * Disturbance recorder functionality added by Sancho Simmy and Gopal Gujjar 
  * ----------------------------------------------------------------------------- */
 
 
@@ -57,14 +58,16 @@
 /*   2. void reconfig_cfg_CC();                                       
 /*   3. int  create_cfg();                                            
 /*   4. void show_pmu_details (GtkWidget *widget, gpointer udata);    
-/*   5. bool is_empty();*
-/*   6. void delete_one();
-/*   7. void delete_all();
-/*   8. void insert_element(char dat[]);
+/*
+/*   ;Following functions have been added for disturbance recorder functionality
+/*   5. bool is_empty(); Check if linked list is empty
+/*   6. void delete_one(); Delete one element from linked list
+/*   7. void delete_all(); Delete all elements from linked list
+/*   8. void insert_element(char dat[]);Add one element to linked list
 /*   9. void print_buffer(); 
-/*   10. void read_config();
-/*   11. void make_config();
-/*   12. void write_data();
+/*   10. void read_config();Read config file
+/*   11. void make_config(); Make the .cfg file
+/*   12. void write_data(); Make the .dat file
 /*   13. void write_data_helper(char* data,long int i,FILE* dat_file);
 /*                                                                    */
 /*--------------------------------------------------------------------*/
@@ -101,7 +104,7 @@ char start_time[50],end_time[50]; //Put proper values later 50 ?
 
 int f;
 
-struct node 
+struct node  //For the circular Q linked list
 {
    char *data;
    struct node *next;
@@ -1115,11 +1118,12 @@ void show_pmu_details (GtkWidget *widget, gpointer udata)
     }
 };
 
-/**************************************** End of File *******************************************************/
 
-
-
-//Main program ####################################################    Main program
+/* ------------------------------------------------------------------------*/
+/* FUNCTION  create_fifo_buffer()                                          */
+/* It opens the data file, reads the values, Creates the buffer and        */
+/* Makes the .cfg and .dat files                                           */
+/* ------------------------------------------------------------------------*/
 int create_fifo_buffer() 
 {
     char temp_val[1024];
@@ -1146,7 +1150,7 @@ int create_fifo_buffer()
             fseek(fp, 0, SEEK_SET);
             fgets(temp_string,size_buffer, fp);
         }
-        insert_element(temp_string);
+        insert_element(temp_string);//Read each line and save to circulat buffer
         free(temp_string);
     }
 		/* local Variables*/
@@ -1159,7 +1163,7 @@ int create_fifo_buffer()
 	ssize_t read;
 	FILE *fp1;
 
-	/* Open the saved PMU Setup File and read the CFG frame if any? */
+	/* Open the saved PMU Setup File and read the CFG frame*/
 	fp1 = fopen (pmuFilePath,"rb");
 
 	if (fp1 != NULL)
@@ -1377,12 +1381,18 @@ int create_fifo_buffer()
     delete_all();
     return(0);
 }
-//check if buffer is empty
+/* ------------------------------------------------------------------------*/
+/* FUNCTION  is_empty()                                                    */
+/* It checks if buffer is empty                                            */
+/* ------------------------------------------------------------------------*/
 bool is_empty() 
 {
    return head == NULL;
 }
-//delete first item ####################################################    DELETE ONE
+/* ------------------------------------------------------------------------*/
+/* FUNCTION  delete_one()                                                  */
+/* It deletes first item in the buffer                                     */
+/* ------------------------------------------------------------------------*/
 void delete_one() 
 {
 buffercount--;
@@ -1394,11 +1404,14 @@ if(tail->next == tail)
       head=NULL;
       }     
 else
-   tail = tail->next;
+tail = tail->next;
 free(tempLink->data);
 free(tempLink);
 }
-//delete all items ####################################################    DELETE ALL
+/* ------------------------------------------------------------------------*/
+/* FUNCTION  delete_all()                                                  */
+/* It deletes all items in the buffer & Resets buffercount                 */
+/* ------------------------------------------------------------------------*/
 void delete_all()
 {
 while(!is_empty()) 
@@ -1407,7 +1420,11 @@ while(!is_empty())
 	}   
 	buffercount=0;
 }
-//insert link at the first location  ####################################################    Insert Element
+
+/* ------------------------------------------------------------------------*/
+/* FUNCTION  insert_element(char dat[])                                    */
+/* It inserts one item in the buffer                                       */
+/* ------------------------------------------------------------------------*/
 void insert_element(char dat[]) 
 {
     //printf("\n++%s++",dat);
@@ -1425,7 +1442,7 @@ void insert_element(char dat[])
     }
     else   
     {
-        if(buffercount==(bufferlength+1))
+        if(buffercount==(bufferlength+1)) // Circular Linked list
         {
             delete_one();
         }
@@ -1435,7 +1452,10 @@ void insert_element(char dat[])
         head->next=head;
     }  
 }
-//display the elements in the buffer  ####################################################    Display Buffer
+/* ------------------------------------------------------------------------*/
+/* FUNCTION  print_buffer()                                                */
+/* It displays all items in the buffer                                     */
+/* ------------------------------------------------------------------------*/
 void print_buffer() 
 {
 struct node *ptr = tail;
@@ -1451,14 +1471,17 @@ if(tail != NULL)
    	}
 }
 
-//Make config data
+/* ------------------------------------------------------------------------*/
+/* FUNCTION  make_config()                                                 */
+/* Makes .cfg file                                                         */
+/* ------------------------------------------------------------------------*/
 void make_config()
 { 
     int flag_space=0;
     FILE *cfg_file;
 
 		char pmuFilePath1[200];
-        char buff1[50];
+                char buff1[50];
 		memset(pmuFilePath1, '\0', 200);
 		strcpy(pmuFilePath1,"..");
 		strcat(pmuFilePath1, "/share/");
@@ -1470,7 +1493,6 @@ void make_config()
 
 
     cfg_file = fopen(pmuFilePath1,"w");
-    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     //printf("\n length %d\n",strlen(cfg_info->cfg_STNname));
     for(int local_count=0;local_count<strlen(cfg_info->cfg_STNname);local_count++)
     { 
@@ -1610,7 +1632,10 @@ void make_config()
       fclose(cfg_file); */
 }
 
-
+/* ------------------------------------------------------------------------*/
+/* FUNCTION  write_data()                                                  */
+/* Makes .dat file                                                         */
+/* ------------------------------------------------------------------------*/
 void write_data()
 {
     FILE *dat_file;
