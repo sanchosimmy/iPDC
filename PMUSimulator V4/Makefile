@@ -67,7 +67,7 @@ SOURCES = \
     ShearedMemoryStructure.h \
 
 OBJECTS =  pmu.c PmuGui.o function.o ServerFunction.o CfgFunction.o CfgGuiFunctions.o
-CLEAN_OBJECTS = PmuGui.o function.o ServerFunction.o CfgFunction.o CfgGuiFunctions.o  pmu.xml
+CLEAN_OBJECTS = PmuGui.o function.o ServerFunction.o CfgFunction.o CfgGuiFunctions.o  #pmu.xml
 
 PROGRAM = PMU
 
@@ -100,6 +100,7 @@ install: $(PROGRAM)
 	cp -f -r ./DataDir/50Hz_measurement_files $(INSTALL_PREFIX)/DataDir/50Hz_measurement_files	#-i -n for Debian based Linux 
 	cp -f -r ./DataDir/60Hz_measurement_files $(INSTALL_PREFIX)/DataDir/60Hz_measurement_files
 	cp -f -r ./DataDir/PMUfiles* $(INSTALL_PREFIX)/DataDir/
+	chmod +x $(INSTALL_PREFIX)/bin/$(FILE7)
 #	chmod 777 $(HOME)/iPDC/DataDir
 #	rm -f $(CLEAN_OBJECTS) $(PROGRAM)
 

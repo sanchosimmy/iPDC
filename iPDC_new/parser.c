@@ -1210,6 +1210,7 @@ int dataparser(unsigned char data[]) {
 
 				copy_cbyc (df->dpmu[j]->freq,d,4);
 				df->dpmu[j]->freq[4] = '\0';
+				printf("\n The freq is : %s \n",df->dpmu[j]);
 				d += 4;					 
 
 				copy_cbyc (df->dpmu[j]->dfreq,d,4);
