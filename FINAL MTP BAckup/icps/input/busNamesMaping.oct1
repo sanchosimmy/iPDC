@@ -1,0 +1,417 @@
+# Created by Octave 4.0.3, Tue Apr 18 09:45:28 2017 IST <gopal@palgopal>
+# name: bus
+# type: scalar struct
+# ndims: 2
+ 1 1
+# length: 4
+# name: srNo
+# type: int32 matrix
+# ndims: 2
+ 6 1
+ 1
+ 2
+ 3
+ 4
+ 5
+ 6
+
+
+# name: name
+# type: cell
+# rows: 6
+# columns: 1
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 5
+BUS_1
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 5
+BUS_2
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 5
+BUS_3
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+BUS_11
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+BUS_12
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+BUS_13
+
+
+
+
+
+# name: ChIdx
+# type: cell
+# rows: 1
+# columns: 6
+# name: <cell-element>
+# type: cell
+# rows: 1
+# columns: 3
+# name: <cell-element>
+# type: scalar
+8
+
+
+
+# name: <cell-element>
+# type: scalar
+9
+
+
+
+# name: <cell-element>
+# type: scalar
+10
+
+
+
+
+
+
+# name: <cell-element>
+# type: cell
+# rows: 1
+# columns: 3
+# name: <cell-element>
+# type: scalar
+17
+
+
+
+# name: <cell-element>
+# type: scalar
+18
+
+
+
+# name: <cell-element>
+# type: scalar
+19
+
+
+
+
+
+
+# name: <cell-element>
+# type: cell
+# rows: 1
+# columns: 3
+# name: <cell-element>
+# type: scalar
+2
+
+
+
+# name: <cell-element>
+# type: scalar
+3
+
+
+
+# name: <cell-element>
+# type: scalar
+4
+
+
+
+
+
+
+# name: <cell-element>
+# type: cell
+# rows: 1
+# columns: 3
+# name: <cell-element>
+# type: scalar
+14
+
+
+
+# name: <cell-element>
+# type: scalar
+15
+
+
+
+# name: <cell-element>
+# type: scalar
+16
+
+
+
+
+
+
+# name: <cell-element>
+# type: cell
+# rows: 1
+# columns: 3
+# name: <cell-element>
+# type: scalar
+11
+
+
+
+# name: <cell-element>
+# type: scalar
+12
+
+
+
+# name: <cell-element>
+# type: scalar
+13
+
+
+
+
+
+
+# name: <cell-element>
+# type: cell
+# rows: 1
+# columns: 3
+# name: <cell-element>
+# type: scalar
+5
+
+
+
+# name: <cell-element>
+# type: scalar
+6
+
+
+
+# name: <cell-element>
+# type: scalar
+7
+
+
+
+
+
+
+
+
+# name: ChNamePl4
+# type: cell
+# rows: 1
+# columns: 6
+# name: <cell-element>
+# type: cell
+# rows: 1
+# columns: 3
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 2
+1A
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 2
+1B
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 2
+1C
+
+
+
+
+
+
+# name: <cell-element>
+# type: cell
+# rows: 1
+# columns: 3
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 2
+2A
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 2
+2B
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 2
+2C
+
+
+
+
+
+
+# name: <cell-element>
+# type: cell
+# rows: 1
+# columns: 3
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 2
+3A
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 2
+3B
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 2
+3C
+
+
+
+
+
+
+# name: <cell-element>
+# type: cell
+# rows: 1
+# columns: 3
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 3
+11A
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 3
+11B
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 3
+11C
+
+
+
+
+
+
+# name: <cell-element>
+# type: cell
+# rows: 1
+# columns: 3
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 3
+12A
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 3
+12B
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 3
+12C
+
+
+
+
+
+
+# name: <cell-element>
+# type: cell
+# rows: 1
+# columns: 3
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 3
+13A
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 3
+13B
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 3
+13C
+
+
+
+
+
+
+
+
+
+

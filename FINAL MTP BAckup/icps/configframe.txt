@@ -1,0 +1,218 @@
+No. of PMUs 6
+
+-----------------------------------------
+PMU No:0
+Pmu Id:101
+Station: PMU1
+=========================================
+	No. of Phasors: 21
+		VBUS_1a
+		VBUS_1b
+		VBUS_1c
+		VBUS_1:BUS_51a
+		VBUS_1:BUS_51b
+		VBUS_1:BUS_51c
+		VBUS_1:BUS_21a
+		VBUS_1:BUS_21b
+		VBUS_1:BUS_21c
+		VBUS_1:BUS_22a
+		VBUS_1:BUS_22b
+		VBUS_1:BUS_22c
+		IBUS_1:BUS_51a
+		IBUS_1:BUS_51b
+		IBUS_1:BUS_51c
+		IBUS_1:BUS_21a
+		IBUS_1:BUS_21b
+		IBUS_1:BUS_21c
+		IBUS_1:BUS_22a
+		IBUS_1:BUS_22b
+		IBUS_1:BUS_22c
+	No. of Analogs: 0
+	No. of Digitals: 0
+=========================================
+-----------------------------------------
+PMU No:1
+Pmu Id:102
+Station: PMU2
+=========================================
+	No. of Phasors: 27
+		VBUS_2a
+		VBUS_2b
+		VBUS_2c
+		VBUS_2:BUS_11a
+		VBUS_2:BUS_11b
+		VBUS_2:BUS_11c
+		VBUS_2:BUS_12a
+		VBUS_2:BUS_12b
+		VBUS_2:BUS_12c
+		VBUS_2:BUS_31a
+		VBUS_2:BUS_31b
+		VBUS_2:BUS_31c
+		VBUS_2:BUS_32a
+		VBUS_2:BUS_32b
+		VBUS_2:BUS_32c
+		IBUS_2:BUS_11a
+		IBUS_2:BUS_11b
+		IBUS_2:BUS_11c
+		IBUS_2:BUS_12a
+		IBUS_2:BUS_12b
+		IBUS_2:BUS_12c
+		IBUS_2:BUS_31a
+		IBUS_2:BUS_31b
+		IBUS_2:BUS_31c
+		IBUS_2:BUS_32a
+		IBUS_2:BUS_32b
+		IBUS_2:BUS_32c
+	No. of Analogs: 0
+	No. of Digitals: 0
+=========================================
+-----------------------------------------
+PMU No:2
+Pmu Id:103
+Station: PMU3
+=========================================
+	No. of Phasors: 33
+		VBUS_3a
+		VBUS_3b
+		VBUS_3c
+		VBUS_3:BUS_21a
+		VBUS_3:BUS_21b
+		VBUS_3:BUS_21c
+		VBUS_3:BUS_22a
+		VBUS_3:BUS_22b
+		VBUS_3:BUS_22c
+		VBUS_3:BUS_131a
+		VBUS_3:BUS_131b
+		VBUS_3:BUS_131c
+		VBUS_3:BUS_132a
+		VBUS_3:BUS_132b
+		VBUS_3:BUS_132c
+		VBUS_3:BUS_133a
+		VBUS_3:BUS_133b
+		VBUS_3:BUS_133c
+		IBUS_3:BUS_21a
+		IBUS_3:BUS_21b
+		IBUS_3:BUS_21c
+		IBUS_3:BUS_22a
+		IBUS_3:BUS_22b
+		IBUS_3:BUS_22c
+		IBUS_3:BUS_131a
+		IBUS_3:BUS_131b
+		IBUS_3:BUS_131c
+		IBUS_3:BUS_132a
+		IBUS_3:BUS_132b
+		IBUS_3:BUS_132c
+		IBUS_3:BUS_133a
+		IBUS_3:BUS_133b
+		IBUS_3:BUS_133c
+	No. of Analogs: 0
+	No. of Digitals: 0
+=========================================
+-----------------------------------------
+PMU No:3
+Pmu Id:111
+Station: PMU11
+=========================================
+	No. of Phasors: 21
+		VBUS_11a
+		VBUS_11b
+		VBUS_11c
+		VBUS_11:BUS_121a
+		VBUS_11:BUS_121b
+		VBUS_11:BUS_121c
+		VBUS_11:BUS_122a
+		VBUS_11:BUS_122b
+		VBUS_11:BUS_122c
+		VBUS_11:BUS_151a
+		VBUS_11:BUS_151b
+		VBUS_11:BUS_151c
+		IBUS_11:BUS_121a
+		IBUS_11:BUS_121b
+		IBUS_11:BUS_121c
+		IBUS_11:BUS_122a
+		IBUS_11:BUS_122b
+		IBUS_11:BUS_122c
+		IBUS_11:BUS_151a
+		IBUS_11:BUS_151b
+		IBUS_11:BUS_151c
+	No. of Analogs: 0
+	No. of Digitals: 0
+=========================================
+-----------------------------------------
+PMU No:4
+Pmu Id:112
+Station: PMU12
+=========================================
+	No. of Phasors: 27
+		VBUS_12a
+		VBUS_12b
+		VBUS_12c
+		VBUS_12:BUS_131a
+		VBUS_12:BUS_131b
+		VBUS_12:BUS_131c
+		VBUS_12:BUS_132a
+		VBUS_12:BUS_132b
+		VBUS_12:BUS_132c
+		VBUS_12:BUS_111a
+		VBUS_12:BUS_111b
+		VBUS_12:BUS_111c
+		VBUS_12:BUS_112a
+		VBUS_12:BUS_112b
+		VBUS_12:BUS_112c
+		IBUS_12:BUS_131a
+		IBUS_12:BUS_131b
+		IBUS_12:BUS_131c
+		IBUS_12:BUS_132a
+		IBUS_12:BUS_132b
+		IBUS_12:BUS_132c
+		IBUS_12:BUS_111a
+		IBUS_12:BUS_111b
+		IBUS_12:BUS_111c
+		IBUS_12:BUS_112a
+		IBUS_12:BUS_112b
+		IBUS_12:BUS_112c
+	No. of Analogs: 0
+	No. of Digitals: 0
+=========================================
+-----------------------------------------
+PMU No:5
+Pmu Id:113
+Station: PMU13
+=========================================
+	No. of Phasors: 33
+		VBUS_13a
+		VBUS_13b
+		VBUS_13c
+		VBUS_13:BUS_31a
+		VBUS_13:BUS_31b
+		VBUS_13:BUS_31c
+		VBUS_13:BUS_32a
+		VBUS_13:BUS_32b
+		VBUS_13:BUS_32c
+		VBUS_13:BUS_33a
+		VBUS_13:BUS_33b
+		VBUS_13:BUS_33c
+		VBUS_13:BUS_121a
+		VBUS_13:BUS_121b
+		VBUS_13:BUS_121c
+		VBUS_13:BUS_122a
+		VBUS_13:BUS_122b
+		VBUS_13:BUS_122c
+		IBUS_13:BUS_31a
+		IBUS_13:BUS_31b
+		IBUS_13:BUS_31c
+		IBUS_13:BUS_32a
+		IBUS_13:BUS_32b
+		IBUS_13:BUS_32c
+		IBUS_13:BUS_33a
+		IBUS_13:BUS_33b
+		IBUS_13:BUS_33c
+		IBUS_13:BUS_121a
+		IBUS_13:BUS_121b
+		IBUS_13:BUS_121c
+		IBUS_13:BUS_122a
+		IBUS_13:BUS_122b
+		IBUS_13:BUS_122c
+	No. of Analogs: 0
+	No. of Digitals: 0
+=========================================
