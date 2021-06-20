@@ -797,6 +797,15 @@ void PMU_process_TCP(unsigned char tcp_buffer[],int sockfd,int pmuid) {
 		fclose(faaf);
 		if(fileno==65535)               /*If this is the last part , Combine files*/
 		{printf("pmu.dat file recieved !!!!!\n");
+
+		time_t t;   // not a primitive datatype
+    	time(&t);
+		  struct timeval time;
+        gettimeofday(&time, NULL);
+
+    	printf("\n\npmu.dat file for PMU_ID %ld recieved at : %s and %ld ms \n\n",pmuid,ctime(&t),time.tv_usec / 1000);
+
+
 		/*File name of new file*/
 		char pmuFilePath5[200];
         char buff5[50],buff55[50],buff555[50];
